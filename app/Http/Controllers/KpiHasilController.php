@@ -15,7 +15,9 @@ class KpiHasilController extends Controller
     */
     public function index()
     {
-        //
+        $penilaians = KpiHasil::all();
+
+        return view();
     }
     
     /**

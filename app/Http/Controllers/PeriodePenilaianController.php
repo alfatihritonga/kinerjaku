@@ -95,4 +95,13 @@ class PeriodePenilaianController extends Controller
 
         return redirect()->route('periode.index')->with('success', 'Periode berhasil dihapus');
     }
+
+    public function closed($id)
+    {
+        $periode = PeriodePenilaian::findOrFail($id);
+        $periode->status = 'closed';
+        $periode->save();
+        
+        return redirect()->route('periode.index')->with('success', 'Status Periode berhasil dibuka');
+    }
 }

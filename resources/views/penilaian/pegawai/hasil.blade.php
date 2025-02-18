@@ -1,10 +1,10 @@
 @extends('layouts.app')
 
-@section('title', 'Penilaian Pegawai')
+@section('title', 'Hasil Penilaian Pegawai')
 
 @section('content')
-<h1 class="h3">Penilaian Pegawai</h1>
-<p>Halaman untuk menilai kpi pegawai</p>
+<h1 class="h3">Hasil Penilaian Pegawai</h1>
+<p>Halaman untuk melihat hasil kpi pegawai</p>
 
 @if (session()->has('warning'))
 <div id="alert-message" class="alert alert-warning" role="alert">

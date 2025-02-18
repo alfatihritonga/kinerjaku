@@ -62,10 +62,10 @@ data-toolbar="#toolbar"
             <a href="{{route('periode.edit', $periode->id)}}" class="badge badge-warning text-decoration-none">
                 <i class="icon-note"></i>
             </a>
-            <form action="{{ route('periode.closed', $periode->id) }}" method="POST" style="display: inline;">
+            <form action="{{ route('periode.destroy', $periode->id) }}" method="POST" style="display: inline;">
                 @csrf
-                @method('put')
-                <button type="submit" class="badge badge-secondary text-decoration-none"><i class="icon-close"></i></button>
+                @method('delete')
+                <button type="submit" class="badge badge-danger text-decoration-none"><i class="icon-trash"></i></button>
             </form>
         </td>
     </tr>

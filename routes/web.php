@@ -33,6 +33,11 @@ Route::resource('kriteria', KriteriaController::class)->middleware('auth');
 Route::resource('subkriteria', SubKriteriaController::class)->middleware('auth');
 
 Route::resource('periode', PeriodePenilaianController::class)->middleware('auth');
+Route::put('periode/closed/{periode}', [PeriodePenilaianController::class, 'closed'])
+    ->name('periode.closed')
+    ->middleware('auth');
+
+Route::resource('hasil', KpiHasilController::class)->middleware('auth');
 
 Route::get('penilaian/{tanggal}', [KpiPenilaianController::class, 'index'])
 ->middleware('auth')
