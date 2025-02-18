@@ -68,21 +68,8 @@ class KpiHasilController extends Controller
     
     public function hasil()
     {
-        $user = Auth::user();
+        $penilaians = KpiPenilaian::where('penilai_id', Auth::user()->id)->get();
         
-        // Cari ID bawahan yang berada di divisi yang sama
-        $bawahans = User::where('atasan_id', $user->id)
-        ->where('divisi_id', $user->divisi_id)
-        ->pluck('id');
-        
-        // Cari bawahan yang sudah dinilai oleh user yang login
-        $bawahanYangSudahDinilai = KpiPenilaian::where('penilai_id', $user->id)
-        ->whereIn('dinilai_id', $bawahans)
-        ->pluck('dinilai_id');
-        
-        // Ambil hasil KPI dari bawahan yang sudah dinilai
-        $hasilKpiBawahan = KpiHasil::whereIn('dinilai_id', $bawahanYangSudahDinilai)->get();
-        
-        return [$hasilKpiBawahan, $bawahanYangSudahDinilai];
+        return view('penilaian.pegawai.hasil', compact('penilaians'));
     }
 }

@@ -115,7 +115,7 @@ class KpiPenilaianController extends Controller
         }
         
         $totalAkhirKPI = ($totalSkorAkhir / $kriterias->count()) * 10;
-        dd($totalAkhirKPI);
+        // dd($totalAkhirKPI);
         
         KpiHasil::create([
             'dinilai_id' => $pegawai->id,

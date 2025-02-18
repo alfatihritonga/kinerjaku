@@ -35,4 +35,10 @@ class KpiPenilaian extends Model
     {
         return $this->hasMany(KpiDetailPenilaian::class, 'penilaian_id');
     }
+
+    public function hasilPenilaian()
+    {
+        return $this->hasOne(KpiHasil::class, 'dinilai_id', 'dinilai_id')
+                ->whereColumn('periode_id', 'periode_id');
+    }
 }
