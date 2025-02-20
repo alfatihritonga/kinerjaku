@@ -10,6 +10,8 @@ use App\Http\Controllers\KriteriaController;
 use App\Http\Controllers\PeriodePenilaianController;
 use App\Http\Controllers\SubKriteriaController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\UserProfileController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -55,4 +57,14 @@ Route::get('hasil-penilaian', [KpiHasilController::class, 'hasil'])
 ->middleware('auth')
 ->name('penilaian.hasil');
 
-// Route::resource('penilaian', KpiPenilaianController::class)->middleware('auth');
+Route::get('profile', [UserProfileController::class, 'index'])
+    ->middleware('auth')
+    ->name('user.profile');
+
+Route::post('profile/update-profile', [UserProfileController::class, 'updateProfile'])
+    ->middleware('auth')
+    ->name('user.update.profile');
+
+Route::post('profile/update-password', [UserProfileController::class, 'updatePassword'])
+    ->middleware('auth')
+    ->name('user.update.password');

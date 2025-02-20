@@ -102,6 +102,6 @@ class PeriodePenilaianController extends Controller
         $periode->status = 'closed';
         $periode->save();
         
-        return redirect()->route('periode.index')->with('success', 'Status Periode berhasil dibuka');
+        return redirect()->route('periode.index')->with('success', 'Status Periode berhasil ditutup');
     }
 }
