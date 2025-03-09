@@ -32,13 +32,17 @@ class PeriodePenilaianController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'nama' => 'required|string|max:255',
+            'keterangan' => 'required|string|max:255',
+            'bulan' => 'required|string|max:255',
+            'tahun' => 'required|string|max:255',
             'tanggal_mulai' => 'required|date',
             'tanggal_selesai' => 'required|date|after_or_equal:tanggal_mulai',
         ]);
 
         PeriodePenilaian::create([
-            'nama' => $request->nama,
+            'keterangan' => $request->keterangan,
+            'bulan' => $request->bulan,
+            'tahun' => $request->tahun,
             'tanggal_mulai' => $request->tanggal_mulai,
             'tanggal_selesai' => $request->tanggal_selesai,
             'status' => 'open'
@@ -53,9 +57,13 @@ class PeriodePenilaianController extends Controller
     public function show($id)
     {
         $periode = PeriodePenilaian::findOrFail($id);
-        $penilaians = KpiPenilaian::where('periode_id', $periode)->get();
+        $penilaian = KpiPenilaian::where('periode_id', $periode)->get();
 
-        return view('penilaian.periode.show', compact('periode', 'penilaians'));
+        return response()->json([
+            'periode' => $periode,
+            'penilaian' => $penilaian
+        ]);
+        // return view('penilaian.periode.show', compact('periode', 'penilaians'));
     }
 
     /**
@@ -74,7 +82,9 @@ class PeriodePenilaianController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'nama' => 'required|string|max:255',
+            'keterangan' => 'required|string|max:255',
+            'bulan' => 'required|string|max:255',
+            'tahun' => 'required|string|max:255',
             'tanggal_mulai' => 'required|date',
             'tanggal_selesai' => 'required|date|after_or_equal:tanggal_mulai',
             'status' => 'required|in:open,closed'
@@ -103,5 +113,14 @@ class PeriodePenilaianController extends Controller
         $periode->save();
         
         return redirect()->route('periode.index')->with('success', 'Status Periode berhasil ditutup');
+    }
+
+    public function open($id)
+    {
+        $periode = PeriodePenilaian::findOrFail($id);
+        $periode->status = 'open';
+        $periode->save();
+        
+        return redirect()->route('periode.index')->with('success', 'Status Periode berhasil dibuka');
     }
 }

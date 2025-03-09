@@ -12,8 +12,11 @@ class KpiHasil extends Model
     protected $fillable = [
         'dinilai_id',
         'periode_id',
-        'skor_total',
-        'keterangan'
+        'penilai_satu_id',
+        'nilai_oleh_satu',
+        'penilai_dua_id',
+        'nilai_oleh_dua',
+        'nilai_kedisiplinan',
     ];
 
     public function pegawai()

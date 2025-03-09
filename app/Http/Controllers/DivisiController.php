@@ -47,12 +47,10 @@ class DivisiController extends Controller
     */
     public function show(Divisi $divisi)
     {
-        $pegawais = User::select('id', 'nama', 'jabatan_id')
-        ->where('divisi_id', $divisi->id)
-        ->with('jabatan')
-        ->get();
-
-        return view('divisi.show', compact('divisi', 'pegawais'));
+        return response()->json([
+            'message' => 'Detail Divisi',
+            'data' => $divisi
+        ]);
     }
     
     /**

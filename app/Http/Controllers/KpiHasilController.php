@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\KpiHasil;
 use App\Models\KpiPenilaian;
+use App\Models\PeriodePenilaian;
 use App\Models\User;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -15,9 +17,13 @@ class KpiHasilController extends Controller
     */
     public function index()
     {
-        $penilaians = KpiHasil::all();
+        $periode = PeriodePenilaian::all();
 
-        return view();
+        // return response()->json([
+        //     'periode' => $periode
+        // ]);
+
+        return view('penilaian.hasil.index', compact('periode'));
     }
     
     /**
@@ -39,9 +45,13 @@ class KpiHasilController extends Controller
     /**
     * Display the specified resource.
     */
-    public function show(KpiHasil $kpiHasil)
+    public function show($id)
     {
-        //
+        $hasilKpi = KpiHasil::where('periode_id', $id)
+        ->orderByRaw('(nilai_oleh_satu + nilai_oleh_dua) DESC')
+        ->get();
+        
+        return view('penilaian.hasil.show', compact('hasilKpi'));
     }
     
     /**
@@ -70,8 +80,46 @@ class KpiHasilController extends Controller
     
     public function hasil()
     {
-        $penilaians = KpiPenilaian::where('penilai_id', Auth::user()->id)->get();
+        $penilaians = KpiPenilaian::where('penilai_id', Auth::user()->id)
+        ->with([
+            'hasilPenilaian'
+        ])
+        ->get();
         
         return view('penilaian.pegawai.hasil', compact('penilaians'));
+    }
+
+    public function hasilAkhir($periodeId, $level)
+    {
+        $hasilKpi = KpiHasil::where('periode_id', $periodeId)
+        ->whereHas('pegawai', function ($query) use ($level) { // Gunakan `use ($level)`
+            $query->whereHas('jabatan', function ($q) use ($level) { // Gunakan `use ($level)`
+                $q->where('level', $level);
+            });
+        })
+        ->orderByRaw('(((COALESCE(nilai_oleh_satu, 0) + COALESCE(nilai_oleh_dua, 0)) / 2) + COALESCE(nilai_kedisiplinan, 0)) / 2 desc')
+        ->get();
+        
+        if ($level == 4) {
+            return view('penilaian.hasil-kasubid.index', compact('hasilKpi'));
+        } else {
+            return view('penilaian.hasil-staff.index', compact('hasilKpi'));
+        }
+    }
+
+    public function cetakLaporan($periodeId, $level)
+    {
+        $hasilKpi = KpiHasil::with(['pegawai.jabatan'])
+        ->where('periode_id', $periodeId)
+        ->whereHas('pegawai.jabatan', function ($q) use ($level) { 
+            $q->where('level', $level);
+        })
+        ->orderByRaw('(((COALESCE(nilai_oleh_satu, 0) + COALESCE(nilai_oleh_dua, 0)) / 2) + COALESCE(nilai_kedisiplinan, 0)) / 2 desc')
+        ->get();
+        
+        $pdf = Pdf::loadView('reports.hasil-akhir-penilaian', compact('hasilKpi', 'level'))
+                    ->setPaper('a4', 'landscape');
+
+        return $pdf->stream('Hasil Akhir Penilaian ' . optional($hasilKpi->first()->periode)->bulan . '.pdf');
     }
 }

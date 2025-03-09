@@ -3,68 +3,86 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DivisiController;
+use App\Http\Controllers\ImportController;
 use App\Http\Controllers\JabatanController;
 use App\Http\Controllers\KpiHasilController;
 use App\Http\Controllers\KpiPenilaianController;
 use App\Http\Controllers\KriteriaController;
+use App\Http\Controllers\NilaiKedisiplinanController;
 use App\Http\Controllers\PeriodePenilaianController;
 use App\Http\Controllers\SubKriteriaController;
+use App\Http\Controllers\UnitKerjaController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserProfileController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return redirect()->route('home');
-})->middleware('auth');
-
-Route::get('home', [DashboardController::class, 'index'])->middleware('auth')->name('home');
-
-Route::get('login', [AuthController::class, 'showLogin'])->name('login');
+Route::get('login', [AuthController::class, 'showLogin'])->name('login')->middleware('guest');
 Route::post('login', [AuthController::class, 'login']);
-Route::post('logout', [AuthController::class, 'logout'])->name('logout');
+Route::post('logout', [AuthController::class, 'logout'])->name('logout')->middleware('auth');
 
-Route::resource('divisi', DivisiController::class)->middleware('auth');
+Route::middleware('auth')->group(function () {
+    Route::get('/', function () {
+        return redirect()->route('home');
+    });
+    
+    Route::get('home', [DashboardController::class, 'index'])->name('home');
+    
+    Route::resource('divisi', DivisiController::class);
+    
+    Route::resource('unit-kerja', UnitKerjaController::class);
+    
+    Route::resource('jabatan', JabatanController::class);
+    
+    Route::resource('pegawai', UserController::class);
+    
+    Route::resource('kriteria', KriteriaController::class);
+    
+    Route::resource('subkriteria', SubKriteriaController::class);
+    
+    Route::resource('periode', PeriodePenilaianController::class);
+    Route::prefix('periode')->group(function () {
+        Route::put('closed/{periode}', [PeriodePenilaianController::class, 'closed'])
+        ->name('periode.closed');
+        
+        Route::put('open/{periode}', [PeriodePenilaianController::class, 'open'])
+        ->name('periode.open');
+    });
+    
+    Route::get('penilaian/periode/{periodeId}', [KpiPenilaianController::class, 'index'])
+    ->name('penilaian.index');
+    
+    Route::get('penilaian/periode/{periodeId}/pegawai/{pegawai}', [KpiPenilaianController::class, 'create'])
+    ->name('penilaian.create');
+    
+    Route::post('penilaian/periode/{periodeId}/pegawai/{pegawai}', [KpiPenilaianController::class, 'store'])
+    ->name('penilaian.store');
+    
+    Route::get('nilai-kedisiplinan', [NilaiKedisiplinanController::class, 'index'])
+    ->name('nilai.kedisiplinan.index');
+    
+    Route::get('nilai-kedisiplinan/import/periode/{periodeId}', [NilaiKedisiplinanController::class, 'showImport'])
+    ->name('nilai.kedisiplinan.import');
 
-Route::resource('jabatan', JabatanController::class)->middleware('auth');
+    Route::post('nilai-kedisiplinan/import/periode/{periodeId}', [ImportController::class, 'nilaiKedisiplinan'])
+    ->name('nilai.kedisiplinan.import.data');
 
-Route::resource('pegawai', UserController::class)->middleware('auth');
+    Route::get('hasil/periode/{periodeId}/kategori/{level}', [KpiHasilController::class, 'hasilAkhir'])
+    ->name('hasil.kpi');
 
-Route::resource('kriteria', KriteriaController::class)->middleware('auth');
-
-Route::resource('subkriteria', SubKriteriaController::class)->middleware('auth');
-
-Route::resource('periode', PeriodePenilaianController::class)->middleware('auth');
-Route::put('periode/closed/{periode}', [PeriodePenilaianController::class, 'closed'])
-    ->name('periode.closed')
-    ->middleware('auth');
-
-Route::resource('hasil', KpiHasilController::class)->middleware('auth');
-
-Route::get('penilaian/{tanggal}', [KpiPenilaianController::class, 'index'])
-->middleware('auth')
-->name('penilaian.index');
-
-Route::get('penilaian/{pegawai}/{tanggal}', [KpiPenilaianController::class, 'create'])
-->middleware('auth')
-->name('penilaian.create');
-
-Route::post('penilaian/{pegawai}/{tanggal}', [KpiPenilaianController::class, 'store'])
-->middleware('auth')
-->name('penilaian.store');
-
-Route::get('hasil-penilaian', [KpiHasilController::class, 'hasil'])
-->middleware('auth')
-->name('penilaian.hasil');
-
-Route::get('profile', [UserProfileController::class, 'index'])
-    ->middleware('auth')
+    Route::get('hasil/periode/{periodeId}/kategori/{level}/cetak', [KpiHasilController::class, 'cetakLaporan'])
+    ->name('hasil.kpi.cetak');
+    
+    Route::resource('hasil', KpiHasilController::class);
+    Route::get('hasil-penilaian', [KpiHasilController::class, 'hasil'])
+    ->name('penilaian.hasil');
+    
+    Route::get('profile', [UserProfileController::class, 'index'])
     ->name('user.profile');
-
-Route::post('profile/update-profile', [UserProfileController::class, 'updateProfile'])
-    ->middleware('auth')
+    
+    Route::post('profile/update-profile', [UserProfileController::class, 'updateProfile'])
     ->name('user.update.profile');
-
-Route::post('profile/update-password', [UserProfileController::class, 'updatePassword'])
-    ->middleware('auth')
+    
+    Route::post('profile/update-password', [UserProfileController::class, 'updatePassword'])
     ->name('user.update.password');
+});

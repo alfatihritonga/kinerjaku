@@ -8,17 +8,7 @@
         <p>Halaman untuk mengelola profile</p>
     </div>
 
-    @if (session()->has('success'))
-        <div id="alert-message" class="alert alert-success" role="alert">
-            {{ session('success') }}
-        </div>
-    @endif
-
-    @if (session()->has('error'))
-        <div id="alert-message" class="alert alert-warning" role="alert">
-            {{ session('error') }}
-        </div>
-    @endif
+    <x-alert />
 
     <div class="card mb-3">
         <div class="card-body">
@@ -88,14 +78,5 @@
 
             btnChangePassword.disabled = true;
         });
-
-        setTimeout(function() {
-            let alert = document.getElementById('alert-message');
-            if (alert) {
-                alert.style.transition = "opacity 0.5s";
-                alert.style.opacity = "0";
-                setTimeout(() => alert.remove(), 500);
-            }
-        }, 5000);
     </script>
 @endsection

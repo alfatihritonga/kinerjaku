@@ -14,13 +14,14 @@ return new class extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->string('nama');
+            $table->string('nip')->nullable();
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
-            $table->foreignId('jabatan_id')->nullable()->constrained('jabatans')->nullOnDelete();
             $table->foreignId('divisi_id')->nullable()->constrained('divisis')->nullOnDelete();
-            $table->foreignId('atasan_id')->nullable()->constrained('users')->nullOnDelete();
+            $table->foreignId('unit_kerja_id')->nullable()->constrained('unit_kerjas')->nullOnDelete();
+            $table->foreignId('jabatan_id')->nullable()->constrained('jabatans')->nullOnDelete();
             $table->enum('role', ['admin', 'pegawai'])->default('pegawai');
+            $table->string('password');
             $table->rememberToken();
             $table->timestamps();
         });

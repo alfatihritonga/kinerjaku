@@ -14,11 +14,11 @@ class DivisiSeeder extends Seeder
     public function run(): void
     {
         Divisi::insert([
-            ['nama' => 'Pusdatin'],
-            ['nama' => 'LPM'],
-            ['nama' => 'Akademik'],
-            ['nama' => 'Kemahasiswaan'],
-            ['nama' => 'Keuangan, Kepegawaian dan Operasional'],
+            ['nama' => 'Yayasan'], // 1
+            ['nama' => 'Manajemen'], // 2
+            ['nama' => 'Akademik'], // 3
+            ['nama' => 'Kemahasiswaan'], // 4
+            ['nama' => 'Keuangan, Kepegawaian dan Umum'], // 5
         ]);
     }
 }

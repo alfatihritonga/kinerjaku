@@ -15,8 +15,11 @@ return new class extends Migration
             $table->id();
             $table->foreignId('dinilai_id')->constrained('users')->cascadeOnDelete();
             $table->foreignId('periode_id')->constrained('periode_penilaians')->cascadeOnDelete();
-            $table->decimal('skor_total');
-            $table->string('keterangan');
+            $table->foreignId('penilai_satu_id')->nullable()->constrained('users')->cascadeOnDelete()->default(null);
+            $table->decimal('nilai_oleh_satu')->nullable();
+            $table->foreignId('penilai_dua_id')->nullable()->constrained('users')->cascadeOnDelete()->default(null);
+            $table->decimal('nilai_oleh_dua')->nullable();
+            $table->decimal('nilai_kedisiplinan')->nullable();
             $table->timestamps();
         });
     }

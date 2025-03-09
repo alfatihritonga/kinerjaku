@@ -10,7 +10,9 @@ class PeriodePenilaian extends Model
     use HasFactory;
 
     protected $fillable = [
-        'nama',
+        'keterangan',
+        'bulan',
+        'tahun',
         'tanggal_mulai',
         'tanggal_selesai',
         'status'

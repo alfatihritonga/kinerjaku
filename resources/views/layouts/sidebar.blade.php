@@ -10,14 +10,20 @@
             <li class="nav-item nav-category">Master Data</li>
             <li class="nav-item">
                 <a class="nav-link" href="{{ route('divisi.index') }}">
-                    <i class="mdi mdi-account menu-icon"></i>
+                    <i class="mdi mdi-domain menu-icon"></i>
                     <span class="menu-title">Divisi</span>
                 </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="{{ route('jabatan.index') }}">
-                    <i class="mdi mdi-account-multiple menu-icon"></i>
+                    <i class="mdi mdi-account-tie menu-icon"></i>
                     <span class="menu-title">Jabatan</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ route('unit-kerja.index') }}">
+                    <i class="mdi mdi-briefcase menu-icon"></i>
+                    <span class="menu-title">Unit Kerja</span>
                 </a>
             </li>
             <li class="nav-item">
@@ -50,7 +56,10 @@
                 <div class="collapse" id="penilaian">
                     <ul class="nav flex-column sub-menu">
                         <li class="nav-item"> <a class="nav-link" href="{{ route('periode.index') }}">Periode</a></li>
-                        <li class="nav-item"> <a class="nav-link" href="">Hasil</a></li>
+                        <li class="nav-item"> <a class="nav-link" href="{{ route('nilai.kedisiplinan.index') }}">Nilai
+                                Kedisiplinan</a></li>
+                        <li class="nav-item"> <a class="nav-link" href="{{ route('hasil.index') }}">Hasil</a>
+                        </li>
                     </ul>
                 </div>
             </li>

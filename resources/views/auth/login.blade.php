@@ -5,7 +5,7 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Star Admin2 </title>
+    <title>Login - {{ config('app.name') }}</title>
     <!-- plugins:css -->
     <link rel="stylesheet" href="{{ asset('assets/vendors/feather/feather.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/vendors/mdi/css/materialdesignicons.min.css') }}">
@@ -21,7 +21,7 @@
     <!-- inject:css -->
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
     <!-- endinject -->
-    <link rel="shortcut icon" href="{{ asset('assets/images/favicon.png') }}" />
+    <link rel="shortcut icon" href="{{ asset('assets/images/favicon-32x32.png') }}" />
 </head>
 
 <body>
@@ -32,7 +32,9 @@
                     <div class="col-lg-4 mx-auto">
                         <div class="auth-form-light text-left py-5 px-4 px-sm-5">
                             <div class="brand-logo">
-                                <img src="{{ asset('assets/images/logo.svg') }}" alt="logo">
+                                <h4 class="fw-bold">Sisfo <span class="text-primary">Penilaian KPI</span></h4>
+                                {{-- <img src="{{ asset('assets/images/logo.png') }}" alt="logo"> --}}
+                                {{-- <img src="{{ asset('assets/images/logo.svg') }}" alt="logo"> --}}
                             </div>
                             <h4>Hello! let's get started</h4>
                             <h6 class="fw-light">Sign in to continue.</h6>
@@ -55,16 +57,6 @@
                                     <button type="submit"
                                         class="btn btn-block btn-primary btn-lg fw-medium auth-form-btn">SIGN
                                         IN</button>
-                                </div>
-                                <div class="my-2 d-flex justify-content-between align-items-center">
-                                    <div class="form-check">
-                                        <label class="form-check-label text-muted">
-                                            <input type="checkbox" class="form-check-input"> Keep me signed in </label>
-                                    </div>
-                                    <a href="#" class="auth-link text-black">Forgot password?</a>
-                                </div>
-                                <div class="text-center mt-4 fw-light"> Don't have an account? <a href=""
-                                        class="text-primary">Create</a>
                                 </div>
                             </form>
                         </div>

@@ -19,11 +19,12 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'nama',
+        'nip',
         'email',
         'password',
-        'jabatan_id',
         'divisi_id',
-        'atasan_id',
+        'unit_kerja_id',
+        'jabatan_id',
         'role'
     ];
 
@@ -35,6 +36,11 @@ class User extends Authenticatable
     public function divisi()
     {
         return $this->belongsTo(Divisi::class);
+    }
+
+    public function unitKerja()
+    {
+        return $this->belongsTo(UnitKerja::class, 'unit_kerja_id');
     }
 
     public function atasan()

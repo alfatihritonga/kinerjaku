@@ -13,7 +13,9 @@ return new class extends Migration
     {
         Schema::create('periode_penilaians', function (Blueprint $table) {
             $table->id();
-            $table->string('nama');
+            $table->string('keterangan');
+            $table->string('bulan');
+            $table->string('tahun');
             $table->date('tanggal_mulai');
             $table->date('tanggal_selesai');
             $table->enum('status', ['open', 'closed'])->default('open');

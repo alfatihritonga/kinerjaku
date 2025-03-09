@@ -17,4 +17,9 @@ class Divisi extends Model
     {
         return $this->hasMany(User::class);
     }
+
+    public function unitKerjas()
+    {
+        return $this->hasMany(UnitKerja::class);
+    }
 }

@@ -1,9 +1,4 @@
 document.addEventListener("DOMContentLoaded", function () {
-    const yearSpan = document.getElementById("year");
-    if (yearSpan) {
-        yearSpan.textContent = new Date().getFullYear();
-    }
-    
     const welcomeText = document.getElementById("welcome-message");
     const currentHour = new Date().getHours();
     let greeting;

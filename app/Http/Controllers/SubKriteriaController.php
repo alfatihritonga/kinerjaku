@@ -26,10 +26,10 @@ class SubKriteriaController extends Controller
      */
     public function create()
     {
-        $kriterias = Kriteria::select('id', 'nama')->get();
-        $jabatans = Jabatan::select('nama', 'level')->get();
+        $kriteria = Kriteria::select('id', 'nama')->get();
+        $jabatan = Jabatan::select('nama', 'level')->get()->groupBy('level');
 
-        return view('kpi.subkriteria.create', compact('kriterias', 'jabatans'));
+        return view('kpi.subkriteria.create', compact('kriteria', 'jabatan'));
     }
 
     /**
@@ -40,8 +40,8 @@ class SubKriteriaController extends Controller
         $request->validate([
             'nama' => 'required|string|max:255',
             'kriteria_id' => 'required|exists:kriterias,id',
-            'level_minimal' => 'required|integer|min:1',
-            'level_maksimal' => 'nullable|integer|min:1',
+            'level_minimal' => 'required|integer',
+            'level_maksimal' => 'nullable|integer',
         ]);
 
         SubKriteria::create($request->all());
@@ -64,7 +64,9 @@ class SubKriteriaController extends Controller
     {
         $subKriteria = SubKriteria::findOrFail($id);
         $kriteria = Kriteria::all();
-        return view('subkriteria.edit', compact('subKriteria', 'kriteria'));
+        $jabatan = Jabatan::select('nama', 'level')->get()->groupBy('level');
+
+        return view('kpi.subkriteria.edit', compact('subKriteria', 'kriteria', 'jabatan'));
     }
 
     /**
@@ -75,8 +77,8 @@ class SubKriteriaController extends Controller
         $request->validate([
             'nama' => 'required|string|max:255',
             'kriteria_id' => 'required|exists:kriterias,id',
-            'level_minimal' => 'required|integer|min:1',
-            'level_maksimal' => 'nullable|integer|min:1',
+            'level_minimal' => 'required|integer',
+            'level_maksimal' => 'nullable|integer',
         ]);
 
         $subKriteria = SubKriteria::findOrFail($id);
