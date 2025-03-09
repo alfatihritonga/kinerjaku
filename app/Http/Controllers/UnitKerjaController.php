@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Divisi;
 use App\Models\UnitKerja;
 use Illuminate\Http\Request;
 
@@ -22,7 +23,9 @@ class UnitKerjaController extends Controller
      */
     public function create()
     {
-        //
+        $divisi = Divisi::select('id', 'nama')->get();
+        
+        return view('unit-kerja.create', compact('divisi'));
     }
 
     /**
@@ -30,7 +33,17 @@ class UnitKerjaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'nama' => 'required|string|max:255|unique:divisis,nama',
+            'divisi_id' => 'required|exists:divisis,id',
+        ]);
+        
+        UnitKerja::create([
+            'nama' => $request->nama,
+            'divisi_id' => $request->divisi_id,
+        ]);
+        
+        return redirect()->route('unit-kerja.index')->with('success', 'Unit Kerja berhasil ditambahkan.');
     }
 
     /**
@@ -38,7 +51,10 @@ class UnitKerjaController extends Controller
      */
     public function show(UnitKerja $unitKerja)
     {
-        //
+        return response()->json([
+            'message' => 'Detail Unit Kerja',
+            'data' => $unitKerja
+        ]);
     }
 
     /**
@@ -46,7 +62,7 @@ class UnitKerjaController extends Controller
      */
     public function edit(UnitKerja $unitKerja)
     {
-        //
+        return view('unit-kerja.edit', compact('unitKerja'));
     }
 
     /**
@@ -54,14 +70,23 @@ class UnitKerjaController extends Controller
      */
     public function update(Request $request, UnitKerja $unitKerja)
     {
-        //
+        $request->validate([
+            'nama' => 'required|string|max:255|unique:divisis,nama',
+            'divisi_id' => 'required|exists:divisis,id',
+        ]);
+        
+        $unitKerja->update($request->all());
+        
+        return redirect()->route('unit-kerja.index')->with('success', 'Unit Kerja berhasil diperbarui.');
     }
-
+    
     /**
      * Remove the specified resource from storage.
      */
     public function destroy(UnitKerja $unitKerja)
     {
-        //
+        $unitKerja->delete();
+        
+        return redirect()->route('unit-kerja.index')->with('success', 'Unit Kerja berhasil dihapus.');
     }
 }

@@ -8,7 +8,7 @@
         <div>
             <a class="navbar-brand brand-logo" href="">
                 {{-- <img src="{{ asset('assets/images/logo.svg') }}" alt="logo" /> --}}
-                <h4 class="fw-bold">Sisfo <span class="text-primary">Penilaian KPI</span></h4>
+                <h4 class="fw-bold">Sisfo <span class="text-primary">KPI</span></h4>
             </a>
             <a class="navbar-brand brand-logo-mini" href="">
                 <img src="{{ asset('assets/images/logo-mini.svg') }}" alt="logo" />

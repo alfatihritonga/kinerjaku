@@ -33,14 +33,6 @@
             border: 1px solid black;
         }
 
-        th.th-no,
-        td.td-no {
-            width: 1px;
-            /* Buat sekecil mungkin */
-            white-space: nowrap;
-            /* Pastikan angka tidak pecah ke bawah */
-        }
-
         thead {
             background-color: yellow;
         }
@@ -82,7 +74,7 @@
     <table class="table-bordered">
         <thead>
             <tr>
-                <th class="th-no" rowspan="2">No</th>
+                <th rowspan="2">No</th>
                 <th rowspan="2">Nama</th>
                 <th rowspan="2">Divisi</th>
                 <th rowspan="2">Unit Kerja</th>
@@ -105,7 +97,7 @@
                     $grand_total = ($total_nilai + ($item->nilai_kedisiplinan ?? 0)) / 2;
                 @endphp
                 <tr class="text-center">
-                    <td class="td-no">{{ $loop->iteration }}</td>
+                    <td style="width: auto">{{ $loop->iteration }}</td>
                     <td class="text-left">{{ $item->pegawai->nama ?? '-' }}</td>
                     <td>{{ optional($item->pegawai->divisi)->nama ?? '-' }}</td>
                     <td>{{ optional($item->pegawai->unitKerja)->nama ?? '-' }}</td>

@@ -20,8 +20,8 @@
                 <th data-field="id" data-sortable="true">No</th>
                 <th data-field="nama" data-sortable="true">Nama</th>
                 <th data-field="divisi" data-sortable="true">Divisi</th>
-                <th data-field="jabatan" data-sortable="true">Jabatan</th>
                 <th data-field="unit_kerja" data-sortable="true">Unit Kerja</th>
+                <th data-field="jabatan" data-sortable="true">Jabatan</th>
                 <th>Action</th>
             </tr>
         </thead>
@@ -31,8 +31,8 @@
                     <th scope="row">{{ $loop->iteration }}</th>
                     <td>{{ $pegawai->nama }}</td>
                     <td>{{ $pegawai->divisi->nama ?? '-' }}</td>
-                    <td>{{ $pegawai->jabatan->nama ?? '-' }}</td>
                     <td>{{ $pegawai->unitKerja->nama ?? '-' }}</td>
+                    <td>{{ $pegawai->jabatan->nama ?? '-' }}</td>
                     <td>
                         <a href="{{ route('pegawai.edit', $pegawai->id) }}"
                             class="badge badge-warning text-decoration-none">

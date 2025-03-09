@@ -9,7 +9,7 @@
     <x-alert />
 
     <div id="toolbar">
-        <a href="{{ route('divisi.create') }}" class="btn btn-primary btn-icon btn-sm">
+        <a href="{{ route('unit-kerja.create') }}" class="btn btn-primary btn-icon btn-sm">
             <i class="mdi mdi-plus"></i>
         </a>
     </div>
@@ -30,10 +30,11 @@
                     <td>{{ $item->nama }}</td>
                     <td>{{ $item->divisi->nama }}</td>
                     <td>
-                        <a href="{{ route('divisi.edit', $item->id) }}" class="badge badge-warning text-decoration-none">
+                        <a href="{{ route('unit-kerja.edit', $item->id) }}"
+                            class="badge badge-warning text-decoration-none">
                             <i class="icon-note"></i>
                         </a>
-                        <form action="{{ route('divisi.destroy', $item->id) }}" method="POST" style="display: inline;">
+                        <form action="{{ route('unit-kerja.destroy', $item->id) }}" method="POST" style="display: inline;">
                             @csrf
                             @method('delete')
                             <button type="submit" class="badge badge-danger text-decoration-none"><i
