@@ -5,7 +5,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Hasil Akhir Penilaian</title>
+    <title>
+        Hasil Akhir Penilaian {{ $level == 4 ? 'Kasubid' : 'Staff' }} -
+        Periode
+        {{ optional($hasilKpi->first()->periode)->bulan . ' ' . optional($hasilKpi->first()->periode)->tahun }}
+    </title>
 
     <style>
         body {

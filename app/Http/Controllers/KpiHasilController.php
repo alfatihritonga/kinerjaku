@@ -116,9 +116,20 @@ class KpiHasilController extends Controller
         ->orderByRaw('(((COALESCE(nilai_oleh_satu, 0) + COALESCE(nilai_oleh_dua, 0)) / 2) + COALESCE(nilai_kedisiplinan, 0)) / 2 desc')
         ->get();
         
+        if ($hasilKpi->isEmpty()) {
+            return back()->with('warning', 'Hasil Penilaian belum ada.');
+        }
+        
         $pdf = Pdf::loadView('reports.hasil-akhir-penilaian', compact('hasilKpi', 'level'))
                     ->setPaper('a4', 'landscape');
 
-        return $pdf->stream('Hasil Akhir Penilaian ' . optional($hasilKpi->first()->periode)->bulan . '.pdf');
+        
+        return $pdf->stream(
+            'Hasil Akhir Penilaian ' 
+            . ($level == 4 ? 'Kasubid' : 'Staff') 
+            . ' - Periode '
+            . (optional($hasilKpi->first()->periode)->bulan . ' ' . optional($hasilKpi->first()->periode)->tahun)
+            . '.pdf'
+        );
     }
 }
