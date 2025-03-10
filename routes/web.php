@@ -28,6 +28,10 @@ Route::middleware('auth')->group(function () {
     
     Route::get('home', [DashboardController::class, 'index'])->name('home');
     
+    /**
+    * CRUD menggunakan resource.
+    */
+    // divisi
     Route::resource('divisi', DivisiController::class);
     
     Route::resource('unit-kerja', UnitKerjaController::class);
@@ -50,39 +54,39 @@ Route::middleware('auth')->group(function () {
     });
     
     Route::get('penilaian/periode/{periodeId}', [KpiPenilaianController::class, 'index'])
-    ->name('penilaian.index');
+        ->name('penilaian.index');
     
     Route::get('penilaian/periode/{periodeId}/pegawai/{pegawai}', [KpiPenilaianController::class, 'create'])
-    ->name('penilaian.create');
+        ->name('penilaian.create');
     
     Route::post('penilaian/periode/{periodeId}/pegawai/{pegawai}', [KpiPenilaianController::class, 'store'])
-    ->name('penilaian.store');
+        ->name('penilaian.store');
     
     Route::get('nilai-kedisiplinan', [NilaiKedisiplinanController::class, 'index'])
-    ->name('nilai.kedisiplinan.index');
+        ->name('nilai.kedisiplinan.index');
     
     Route::get('nilai-kedisiplinan/import/periode/{periodeId}', [NilaiKedisiplinanController::class, 'showImport'])
-    ->name('nilai.kedisiplinan.import');
+        ->name('nilai.kedisiplinan.import');
 
     Route::post('nilai-kedisiplinan/import/periode/{periodeId}', [ImportController::class, 'nilaiKedisiplinan'])
-    ->name('nilai.kedisiplinan.import.data');
+        ->name('nilai.kedisiplinan.import.data');
 
-    Route::get('hasil/periode/{periodeId}/kategori/{level}', [KpiHasilController::class, 'hasilAkhir'])
-    ->name('hasil.kpi');
-
-    Route::get('hasil/periode/{periodeId}/kategori/{level}/cetak', [KpiHasilController::class, 'cetakLaporan'])
-    ->name('hasil.kpi.cetak');
-    
     Route::resource('hasil', KpiHasilController::class);
     Route::get('hasil-penilaian', [KpiHasilController::class, 'hasil'])
-    ->name('penilaian.hasil');
+        ->name('penilaian.hasil');
+
+    Route::get('hasil/periode/{periodeId}/kategori/{level}', [KpiHasilController::class, 'hasilAkhir'])
+        ->name('hasil.kpi');
+
+    Route::get('hasil/periode/{periodeId}/kategori/{level}/cetak', [KpiHasilController::class, 'cetakLaporan'])
+        ->name('hasil.kpi.cetak');
     
     Route::get('profile', [UserProfileController::class, 'index'])
-    ->name('user.profile');
+        ->name('user.profile');
     
     Route::post('profile/update-profile', [UserProfileController::class, 'updateProfile'])
-    ->name('user.update.profile');
+        ->name('user.update.profile');
     
     Route::post('profile/update-password', [UserProfileController::class, 'updatePassword'])
-    ->name('user.update.password');
+        ->name('user.update.password');
 });

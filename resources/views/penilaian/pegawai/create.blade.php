@@ -4,9 +4,10 @@
 
 @section('content')
     <h3>Form Penilaian KPI</h3>
-    {{-- {{\Carbon\Carbon::parse($tanggal)->translatedFormat('F Y')}} --}}
     <small class="fw-semibold">{{ $pegawai->nama }}</small>
     <p class="text-muted">{{ $pegawai->jabatan->nama }} {{ $pegawai->unitKerja->nama }}</p>
+
+    <x-alert />
 
     <form action="{{ route('penilaian.store', [$periode->id, $pegawai->id]) }}" method="POST">
         @csrf
@@ -30,7 +31,7 @@
                                                 <label for="{{ $subKriteria->id }}4" class="form-check-label">
                                                     <input type="radio" class="form-check-input"
                                                         name="nilai[{{ $subKriteria->id }}]" id="{{ $subKriteria->id }}4"
-                                                        value="4">
+                                                        value="4" required>
                                                     Sangat Baik
                                                     <i class="input-helper"></i>
                                                 </label>
@@ -39,7 +40,7 @@
                                                 <label for="{{ $subKriteria->id }}3" class="form-check-label">
                                                     <input type="radio" class="form-check-input "
                                                         name="nilai[{{ $subKriteria->id }}]" id="{{ $subKriteria->id }}3"
-                                                        value="3">
+                                                        value="3" required>
                                                     Baik
                                                     <i class="input-helper"></i>
                                                 </label>
@@ -48,7 +49,7 @@
                                                 <label for="{{ $subKriteria->id }}2" class="form-check-label">
                                                     <input type="radio" class="form-check-input"
                                                         name="nilai[{{ $subKriteria->id }}]" id="{{ $subKriteria->id }}2"
-                                                        value="2">
+                                                        value="2" required>
                                                     Cukup
                                                     <i class="input-helper"></i>
                                                 </label>
@@ -57,7 +58,7 @@
                                                 <label for="{{ $subKriteria->id }}1" class="form-check-label">
                                                     <input type="radio" class="form-check-input"
                                                         name="nilai[{{ $subKriteria->id }}]" id="{{ $subKriteria->id }}1"
-                                                        value="1">
+                                                        value="1" required>
                                                     Tidak Baik
                                                     <i class="input-helper"></i>
                                                 </label>
@@ -80,17 +81,4 @@
         </div>
     </form>
 
-@endsection
-
-@section('script')
-    <script>
-        setTimeout(function() {
-            let alert = document.getElementById('alert-message');
-            if (alert) {
-                alert.style.transition = "opacity 0.5s";
-                alert.style.opacity = "0";
-                setTimeout(() => alert.remove(), 500);
-            }
-        }, 5000);
-    </script>
 @endsection

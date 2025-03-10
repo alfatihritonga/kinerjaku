@@ -6,6 +6,8 @@
     <h1 class="h3">Hasil Penilaian</h1>
     <p>Halaman untuk mengelola hasil penilaian</p>
 
+    <x-alert />
+
     <table data-toggle="table" data-pagination="true" data-search="true">
         <thead>
             <tr>

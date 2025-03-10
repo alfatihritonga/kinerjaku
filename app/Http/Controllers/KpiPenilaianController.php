@@ -69,6 +69,14 @@ class KpiPenilaianController extends Controller
         if (Auth::user()->id == $pegawai->id) {
             return redirect()->route('penilaian.index', $periodeId)->with('warning', 'Anda tidak bisa menilai diri sendiri.');
         }
+
+        $hasRecord = \App\Models\KpiPenilaian::where('dinilai_id', $pegawai->id)
+                    ->where('penilai_id', Auth::user()->id)
+                    ->where('periode_id', $periodeId)
+                    ->exists();
+        if ($hasRecord) {
+            return back()->with('warning', 'Penilaian sudah dilakukan.');
+        }                
         
         $periode = PeriodePenilaian::findOrfail($periodeId);
         

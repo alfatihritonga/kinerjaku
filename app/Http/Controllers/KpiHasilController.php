@@ -91,20 +91,19 @@ class KpiHasilController extends Controller
 
     public function hasilAkhir($periodeId, $level)
     {
-        $hasilKpi = KpiHasil::where('periode_id', $periodeId)
-        ->whereHas('pegawai', function ($query) use ($level) { // Gunakan `use ($level)`
-            $query->whereHas('jabatan', function ($q) use ($level) { // Gunakan `use ($level)`
-                $q->where('level', $level);
-            });
+        $hasilKpi = KpiHasil::with(['pegawai.jabatan'])
+        ->where('periode_id', $periodeId)
+        ->whereHas('pegawai.jabatan', function ($q) use ($level) { 
+            $q->where('level', $level);
         })
         ->orderByRaw('(((COALESCE(nilai_oleh_satu, 0) + COALESCE(nilai_oleh_dua, 0)) / 2) + COALESCE(nilai_kedisiplinan, 0)) / 2 desc')
         ->get();
-        
-        if ($level == 4) {
-            return view('penilaian.hasil-kasubid.index', compact('hasilKpi'));
-        } else {
-            return view('penilaian.hasil-staff.index', compact('hasilKpi'));
+
+        if ($hasilKpi->isEmpty()) {
+            return back()->with('warning', 'Hasil Penilaian belum ada.');
         }
+        
+        return view('penilaian.hasil.show', compact('hasilKpi', 'level'));
     }
 
     public function cetakLaporan($periodeId, $level)
