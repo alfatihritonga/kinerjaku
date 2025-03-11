@@ -85,6 +85,10 @@ class KpiHasilController extends Controller
             'hasilPenilaian'
         ])
         ->get();
+
+        if ($penilaians->isEmpty()) {
+            return back()->with('warning', 'Hasil Penilaian belum ada.');
+        }
         
         return view('penilaian.pegawai.hasil', compact('penilaians'));
     }

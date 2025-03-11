@@ -78,8 +78,40 @@ class KpiPenilaianController extends Controller
         if (Auth::user()->id == $pegawai->id) {
             return redirect()->route('penilaian.index', $periodeId)->with('warning', 'Anda tidak bisa menilai diri sendiri.');
         }
+        
+        if (Auth::user()->jabatan->level > $pegawai->jabatan->level) {
+            return response()->json([
+                'status' => 'unauthorized',
+                'message' => 'Anda tidak berhak menilai atasan',
+                'link' => [
+                    'home' => route('home'),
+                    '_back' => route('penilaian.index', $periodeId)
+                ]
+            ]);
+        } elseif (Auth::user()->jabatan->level == $pegawai->jabatan->level) {
+            return response()->json([
+                'status' => 'unauthorized',
+                'message' => 'Anda tidak berhak menilai pegawai dengan jabatan yang setara',
+                'link' => [
+                    'home' => route('home'),
+                    '_back' => route('penilaian.index', $periodeId)
+                ]
+            ]);
+        }
 
-        $hasRecord = \App\Models\KpiPenilaian::where('dinilai_id', $pegawai->id)
+        if (Auth::user()->jabatan->level == 4 && Auth::user()->unit_kerja_id != $pegawai->unit_kerja_id) {
+            return response()->json([
+                'status' => 'unauthorized',
+                'message' => 'Anda tidak berhak menilai pegawai di unit kerja lain',
+                'data' => [
+                    'level_penilai' => 'Kasubid',
+                    'unit_kerja_penilai' => Auth::user()->unitKerja->nama,
+                    'unit_kerja_dinilai' => $pegawai->unitKerja->nama,
+                ]
+            ]);
+        }
+
+        $hasRecord = KpiPenilaian::where('dinilai_id', $pegawai->id)
                     ->where('penilai_id', Auth::user()->id)
                     ->where('periode_id', $periodeId)
                     ->exists();

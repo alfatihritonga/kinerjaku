@@ -28,7 +28,7 @@
                 <div class="mb-2">
                     <i class="mdi mdi-calendar-month"></i> : <p class="d-inline-block">
                         {{ \Carbon\Carbon::parse($periode_aktif->tanggal_mulai)->format('d M Y') }}
-                        / {{ \Carbon\Carbon::parse($periode_aktif->tanggal_selesai)->format('d M Y') }}</p>
+                        - {{ \Carbon\Carbon::parse($periode_aktif->tanggal_selesai)->format('d M Y') }}</p>
                 </div>
                 <a href="{{ route('penilaian.index', $periode_aktif->id) }}" class="btn btn-success btn-icon-text mt-2">
                     <i class="icon-pencil btn-icon-prepend"></i> Mulai Menilai

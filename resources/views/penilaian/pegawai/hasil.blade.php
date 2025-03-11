@@ -34,4 +34,5 @@
             @endforeach
         </tbody>
     </table>
+    <a href="{{ route('penilaian.index', $penilaians->first()->periode_id) }}" class="btn btn-light">Kembali</a>
 @endsection

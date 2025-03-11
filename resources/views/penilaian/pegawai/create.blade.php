@@ -5,7 +5,7 @@
 @section('content')
     <h3>Form Penilaian KPI</h3>
     <small class="fw-semibold">{{ $pegawai->nama }}</small>
-    <p class="text-muted">{{ $pegawai->jabatan->nama }} {{ $pegawai->unitKerja->nama }}</p>
+    <p class="text-muted">{{ $pegawai->jabatan->nama ?? '' }} {{ $pegawai->unitKerja->nama ?? '' }}</p>
 
     <x-alert />
 
