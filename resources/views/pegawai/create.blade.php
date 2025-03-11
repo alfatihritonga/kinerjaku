@@ -67,9 +67,9 @@
                     <div class="col-sm-9">
                         <select name="unit_kerja_id" id="unit-kerja" class="form-control">
                             <option disabled selected>-- pilih unit kerja --</option>
-                            @foreach ($unitKerja as $item)
+                            {{-- @foreach ($unitKerja as $item)
                                 <option value="{{ $item->id }}">{{ $item->nama }}</option>
-                            @endforeach
+                            @endforeach --}}
                         </select>
                         <x-validation-error error="unit_kerja_id" />
                     </div>
@@ -97,6 +97,33 @@
 @endsection
 
 @section('script')
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#divisi').change(function() {
+                var divisiID = $(this).val();
+                if (divisiID) {
+                    $.ajax({
+                        url: '/unit-kerja/by/' + divisiID,
+                        type: 'GET',
+                        dataType: 'json',
+                        success: function(data) {
+                            $('#unit-kerja').empty();
+                            $('#unit-kerja').append(
+                                '<option disabled selected>-- pilih unit kerja --</option>');
+                            $.each(data, function(key, value) {
+                                $('#unit-kerja').append('<option value="' + value.id +
+                                    '">' + value.nama + '</option>');
+                            });
+                        }
+                    });
+                } else {
+                    $('#unit-kerja').empty();
+                    $('#unit-kerja').append('<option disabled selected>-- pilih unit kerja --</option>');
+                }
+            });
+        });
+    </script>
     <script>
         function generatePassword(length = 10) {
             let charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";

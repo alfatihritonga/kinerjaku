@@ -24,14 +24,18 @@ class KpiPenilaianController extends Controller
         $periode = PeriodePenilaian::where('id', $periodeId)->first();
         
         if (!$periode) {
-            return redirect()->route('home')->with('error', 'Tidak ada periode penilaian aktif pada tanggal ini.');
+            return redirect()->route('home')->with('error', 'Periode penilaian tidak ada.');
+        }
+
+        if ($periode->status == 'closed') {
+            return redirect()->route('home')->with('warning', 'Penilaian sudah ditutup.');
         }
         
         // Cek apakah sudah masuk tanggal mulai akses
         if (now()->format('Y-m-d') < $periode->tanggal_mulai) {
             return redirect()->route('home')->with('error', 'Penilaian belum dapat diakses.');
         } elseif (now()->format('Y-m-d') > $periode->tanggal_selesai) {
-            return redirect()->route('home')->with('error', 'Penilaian sudah selesai.');
+            return redirect()->route('home')->with('warning', 'Penilaian sudah selesai.');
         }
         
         // Pegawai yang bisa dinilai (hanya bawahan langsung)
@@ -42,16 +46,21 @@ class KpiPenilaianController extends Controller
                 $query->where('level', '>', Auth::user()->jabatan->level);
             })
             ->get();
-        } else {
+        } elseif (Auth::user()->jabatan->level == 1) {
+            $pegawai_dinilai = User::where('id', '!=', Auth::id())
+            ->where('divisi_id', Auth::user()->divisi->id)
+            ->get();
+        }
+        else {
             $pegawai_dinilai = User::where('id', '!=', Auth::id())
             ->whereHas('jabatan', function ($query) {
-                $query->whereNotIn('level', [2, 3]) // Mengecualikan level 2 & 3
+                $query->whereNotIn('level', [1, 2, 3]) // Mengecualikan level 1, 2 & 3
               ->where('level', 4);
             })
             ->orWhere(function ($query) {
                 $query->where('divisi_id', Auth::user()->divisi->id)
                       ->whereHas('jabatan', function ($subQuery) {
-                          $subQuery->whereNotIn('level', [2, 3]); // Pastikan tetap mengecualikan
+                          $subQuery->whereNotIn('level', [1, 2, 3]); // Pastikan tetap mengecualikan
                       });
             })
             ->get();
@@ -79,6 +88,17 @@ class KpiPenilaianController extends Controller
         }                
         
         $periode = PeriodePenilaian::findOrfail($periodeId);
+
+        if ($periode->status == 'closed') {
+            return redirect()->route('home')->with('warning', 'Penilaian sudah ditutup.');
+        }
+        
+        // Cek apakah sudah masuk tanggal mulai akses
+        if (now()->format('Y-m-d') < $periode->tanggal_mulai) {
+            return redirect()->route('home')->with('error', 'Penilaian belum dapat diakses.');
+        } elseif (now()->format('Y-m-d') > $periode->tanggal_selesai) {
+            return redirect()->route('home')->with('warning', 'Penilaian sudah selesai.');
+        }
         
         $kriterias = Kriteria::all();
         // Ambil sub-kriteria yang sesuai dengan level jabatan pegawai yang dinilai

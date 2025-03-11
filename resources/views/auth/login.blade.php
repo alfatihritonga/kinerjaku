@@ -32,7 +32,7 @@
                     <div class="col-lg-4 mx-auto">
                         <div class="auth-form-light text-left py-5 px-4 px-sm-5">
                             <div class="brand-logo">
-                                <h4 class="fw-bold">Sisfo <span class="text-primary">Penilaian KPI</span></h4>
+                                <h4 class="fw-bold">Sisfo <span class="text-primary">KPI</span></h4>
                                 {{-- <img src="{{ asset('assets/images/logo.png') }}" alt="logo"> --}}
                                 {{-- <img src="{{ asset('assets/images/logo.svg') }}" alt="logo"> --}}
                             </div>

@@ -31,7 +31,8 @@
             <tr>
                 <th data-field="nilai_oleh_satu" data-sortable="true">
                     {{ $level == 4 ? 'Ketua' : 'Ketua YBKS/Ketua Stmik/Bendahara YBKS/Waka/KA. Pusdatin' }}</th>
-                <th data-field="nilai_oleh_dua" data-sortable="true">{{ $level == 4 ? 'Waka' : 'Kaprodi/Kabid/Kasubid' }}
+                <th data-field="nilai_oleh_dua" data-sortable="true">
+                    {{ $level == 4 ? 'Waka' : 'Kaprodi/Kabid/Kasubid' }}
                 </th>
             </tr>
         </thead>

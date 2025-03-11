@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DivisiController;
+use App\Http\Controllers\GetUnitKerjaController;
 use App\Http\Controllers\ImportController;
 use App\Http\Controllers\JabatanController;
 use App\Http\Controllers\KpiHasilController;
@@ -39,6 +40,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('jabatan', JabatanController::class);
     
     Route::resource('pegawai', UserController::class);
+    Route::get('unit-kerja/by/{divisiId}', GetUnitKerjaController::class);
     
     Route::resource('kriteria', KriteriaController::class);
     

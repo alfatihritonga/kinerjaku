@@ -28,9 +28,8 @@ class UserController extends Controller
     {
         $divisis = Divisi::select('id', 'nama')->get();
         $jabatans = Jabatan::select('id', 'nama')->get();
-        $unitKerja = UnitKerja::select('id', 'nama')->get();
         
-        return view('pegawai.create', compact('divisis', 'jabatans', 'unitKerja'));
+        return view('pegawai.create', compact('divisis', 'jabatans'));
     }
     
     /**
@@ -83,9 +82,8 @@ class UserController extends Controller
         $pegawai = User::findOrFail($id);
         $divisis = Divisi::select('id', 'nama')->get();
         $jabatans = Jabatan::select('id', 'nama')->get();
-        $unitKerja = UnitKerja::select('id', 'nama')->get();
         
-        return view('pegawai.edit', compact('pegawai', 'divisis', 'jabatans', 'unitKerja'));
+        return view('pegawai.edit', compact('pegawai', 'divisis', 'jabatans'));
     }
     
     /**

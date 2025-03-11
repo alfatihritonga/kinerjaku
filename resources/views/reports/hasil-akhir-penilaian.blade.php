@@ -20,7 +20,7 @@
 
         table {
             border-collapse: collapse;
-            table-layout: fixed;
+            /* table-layout: fixed; */
             width: 100%;
         }
 
@@ -88,8 +88,10 @@
                 <th rowspan="2">Grand Total</th>
             </tr>
             <tr>
-                <th>{{ $level == 4 ? 'Ketua' : 'Ketua YBKS/Ketua Stmik/Bendahara YBKS/Waka/KA. Pusdatin' }}</th>
-                <th>{{ $level == 4 ? 'Waka' : 'Kaprodi/Kabid/Kasubid' }}</th>
+                <th style="max-width: 100px;">
+                    {{ $level == 4 ? 'Ketua' : 'Ketua YBKS/Ketua Stmik/Bendahara YBKS/Waka/KA. Pusdatin' }}
+                </th>
+                <th style="max-width: 100px;">{{ $level == 4 ? 'Waka' : 'Kaprodi/Kabid/Kasubid' }}</th>
             </tr>
         </thead>
         <tbody>
@@ -101,7 +103,7 @@
                     $grand_total = ($total_nilai + ($item->nilai_kedisiplinan ?? 0)) / 2;
                 @endphp
                 <tr class="text-center">
-                    <td style="width: auto">{{ $loop->iteration }}</td>
+                    <td>{{ $loop->iteration }}</td>
                     <td class="text-left">{{ $item->pegawai->nama ?? '-' }}</td>
                     <td>{{ optional($item->pegawai->divisi)->nama ?? '-' }}</td>
                     <td>{{ optional($item->pegawai->unitKerja)->nama ?? '-' }}</td>
