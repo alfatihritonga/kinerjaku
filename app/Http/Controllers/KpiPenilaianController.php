@@ -33,9 +33,9 @@ class KpiPenilaianController extends Controller
         
         // Cek apakah sudah masuk tanggal mulai akses
         if (now()->format('Y-m-d') < $periode->tanggal_mulai) {
-            return redirect()->route('home')->with('error', 'Penilaian belum dapat diakses.');
+            return redirect()->route('home')->with('error', 'Periode Penilaian belum dapat diakses.');
         } elseif (now()->format('Y-m-d') > $periode->tanggal_selesai) {
-            return redirect()->route('home')->with('warning', 'Penilaian sudah selesai.');
+            return redirect()->route('home')->with('error', 'Periode Penilaian tidak dapat diakses.');
         }
         
         // Pegawai yang bisa dinilai (hanya bawahan langsung)

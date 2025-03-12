@@ -62,7 +62,7 @@
 <body>
     <table>
         <tr>
-            <td class="fs-14 text-center text-bold">Hasil Akhir Penilaian Pegawai</td>
+            <td class="fs-14 text-center text-bold">Hasil Akhir Penilaian {{ $level == 4 ? 'Kasubid' : 'Staff' }}</td>
         </tr>
         <tr>
             <td class="fs-14 text-center text-bold">

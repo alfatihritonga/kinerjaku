@@ -73,7 +73,7 @@
                 @endforeach
                 <div class="mb-3">
                     <label for="catatan" class="form-label fw-semibold">Kontribusi/Penilaian/Komentar</label>
-                    <input type="text" name="catatan" id="catatan" class="form-control">
+                    <input type="text" name="catatan" id="catatan" class="form-control" required>
                 </div>
 
                 <button type="submit" class="btn btn-success">Simpan</button>
