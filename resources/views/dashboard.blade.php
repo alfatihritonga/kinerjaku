@@ -17,7 +17,11 @@
             </div>
         @endif
 
-        @if ($periode_aktif)
+        @if ($periode_aktif->isEmpty())
+            <div class="alert alert-warning">
+                ⏳ Saat ini tidak ada periode penilaian yang aktif.
+            </div>
+        @else
             @foreach ($periode_aktif as $item)
                 <div class="alert alert-info">
                     <div class="mb-2">
@@ -36,10 +40,6 @@
                     </a>
                 </div>
             @endforeach
-        @else
-            <div class="alert alert-warning">
-                ⏳ Saat ini tidak ada periode penilaian yang aktif.
-            </div>
         @endif
     @else
     @endif

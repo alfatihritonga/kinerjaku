@@ -56,6 +56,11 @@
         .fs-14 {
             font-size: 14px;
         }
+
+        @page {
+            size: A4 landscape;
+            margin: 20mm;
+        }
     </style>
 </head>
 
@@ -116,6 +121,30 @@
             @endforeach
         </tbody>
     </table>
+
+    <table style="width: 100%; margin-top: 50px; table-layout: fixed">
+        <tr>
+            <td>
+                Mengetahui,<br>
+                <strong>Ketua STMIK</strong>
+                <br><br><br><br>
+                <u>Puji Sari Ramadhan, S.Kom., M.Kom.</u>
+            </td>
+            <td>
+                Disetujui,<br>
+                <strong>Waka II</strong>
+                <br><br><br><br>
+                <u>Astri Syahputri, S.Kom., M.Kom.</u>
+            </td>
+            <td>
+                Disusun Oleh,<br>
+                <strong>Operator Penilaian</strong>
+                <br><br><br><br>
+                <u>Ocha Sugiarto, S.Kom.</u>
+            </td>
+        </tr>
+    </table>
+
 </body>
 
 </html>
