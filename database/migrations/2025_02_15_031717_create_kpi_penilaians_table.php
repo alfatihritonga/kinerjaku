@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('kpi_penilaians', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('penilai_id')->constrained('users')->cascadeOnDelete();
-            $table->foreignId('dinilai_id')->constrained('users')->cascadeOnDelete();
+            $table->foreignId('penilai_id')->constrained('pegawais')->cascadeOnDelete();
+            $table->foreignId('dinilai_id')->constrained('pegawais')->cascadeOnDelete();
             $table->foreignId('periode_id')->constrained('periode_penilaians')->cascadeOnDelete();
             $table->text('catatan')->nullable();
             $table->timestamps();

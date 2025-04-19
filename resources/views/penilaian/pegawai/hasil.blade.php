@@ -22,10 +22,10 @@
                 <tr>
                     <td>{{ $penilaian->dinilai->nama }}</td>
                     <td>
-                        @if ($penilaian->hasilPenilaian->penilai_satu_id == Auth::user()->id)
+                        @if ($penilaian->hasilPenilaian->penilai_satu_id == Auth::user()->pegawai->id)
                             {{ $penilaian->hasilPenilaian->nilai_oleh_satu }}
                         @endif
-                        @if ($penilaian->hasilPenilaian->penilai_dua_id == Auth::user()->id)
+                        @if ($penilaian->hasilPenilaian->penilai_dua_id == Auth::user()->pegawai->id)
                             {{ $penilaian->hasilPenilaian->nilai_oleh_dua }}
                         @endif
                     </td>

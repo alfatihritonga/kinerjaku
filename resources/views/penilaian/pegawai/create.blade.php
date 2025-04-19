@@ -14,7 +14,7 @@
 
         <div class="card">
             <div class="card-body">
-                @foreach ($kriterias as $kriteria)
+                {{-- @foreach ($kriterias as $kriteria)
                     <div class="mb-3">
                         <ol start="{{ $loop->iteration }}" type="A">
                             <li class="fw-bold">
@@ -35,7 +35,9 @@
                                                     Sangat Baik
                                                     <i class="input-helper"></i>
                                                 </label>
+                                                (lorem)
                                             </div>
+
                                             <div class="form-check">
                                                 <label for="{{ $subKriteria->id }}3" class="form-check-label">
                                                     <input type="radio" class="form-check-input "
@@ -45,6 +47,7 @@
                                                     <i class="input-helper"></i>
                                                 </label>
                                             </div>
+
                                             <div class="form-check">
                                                 <label for="{{ $subKriteria->id }}2" class="form-check-label">
                                                     <input type="radio" class="form-check-input"
@@ -54,6 +57,7 @@
                                                     <i class="input-helper"></i>
                                                 </label>
                                             </div>
+
                                             <div class="form-check">
                                                 <label for="{{ $subKriteria->id }}1" class="form-check-label">
                                                     <input type="radio" class="form-check-input"
@@ -70,7 +74,47 @@
                             </li>
                         </ol>
                     </div>
+                @endforeach --}}
+
+                @foreach ($kriterias as $kriteria)
+                    <div class="mb-3">
+                        <ol start="{{ $loop->iteration }}" type="A">
+                            <li class="fw-bold">
+                                {{ $kriteria->nama }}
+                                <ol style="margin-left: -16px;">
+                                    @foreach ($subKriterias->where('kriteria_id', $kriteria->id) as $subKriteria)
+                                        <li class="mb-3 fw-normal">
+                                            <label style="vertical-align: top" class="form-label" for="kriteria_{{ $subKriteria->id }}">
+                                                {{ $subKriteria->nama }}
+                                            </label>
+                                            <br>
+
+                                            @foreach ([4 => 'Sangat Baik', 3 => 'Baik', 2 => 'Cukup', 1 => 'Tidak Baik'] as $nilai => $label)
+                                                @php
+                                                    $ket = $subKriteria->nilaiKeterangan->firstWhere('nilai', $nilai)?->keterangan;
+                                                @endphp
+                                                <div class="form-check mb-1">
+                                                    <label for="{{ $subKriteria->id }}{{ $nilai }}" class="form-check-label">
+                                                        <input type="radio" class="form-check-input"
+                                                            name="nilai[{{ $subKriteria->id }}]" id="{{ $subKriteria->id }}{{ $nilai }}"
+                                                            value="{{ $nilai }}" required>
+                                                        {{ $label }}
+                                                    </label>
+                                                    @if ($ket)
+                                                        <div class="text-muted small ms-4">
+                                                            {{ $ket }}
+                                                        </div>
+                                                    @endif
+                                                </div>
+                                            @endforeach
+                                        </li>
+                                    @endforeach
+                                </ol>
+                            </li>
+                        </ol>
+                    </div>
                 @endforeach
+
                 <div class="mb-3">
                     <label for="catatan" class="form-label fw-semibold">Kontribusi/Penilaian/Komentar</label>
                     <input type="text" name="catatan" id="catatan" class="form-control" required>

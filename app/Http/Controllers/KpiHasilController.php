@@ -80,7 +80,7 @@ class KpiHasilController extends Controller
     
     public function hasil()
     {
-        $penilaians = KpiPenilaian::where('penilai_id', Auth::user()->id)
+        $penilaians = KpiPenilaian::where('penilai_id', Auth::user()->pegawai->id)
         ->with([
             'hasilPenilaian'
         ])
@@ -90,6 +90,7 @@ class KpiHasilController extends Controller
             return back()->with('warning', 'Hasil Penilaian belum ada.');
         }
         
+        // return response()->json($penilaians);
         return view('penilaian.pegawai.hasil', compact('penilaians'));
     }
 
@@ -130,7 +131,7 @@ class KpiHasilController extends Controller
         
         return $pdf->stream(
             'Hasil Akhir Penilaian ' 
-            . ($level == 4 ? 'Kasubid' : 'Staff') 
+            . ($level == 5 ? 'Kasubid' : 'Staff') 
             . ' - Periode '
             . (optional($hasilKpi->first()->periode)->bulan . ' ' . optional($hasilKpi->first()->periode)->tahun)
             . '.pdf'

@@ -55,7 +55,7 @@
                             @php
                                 // Mengecek apakah pegawai->id sudah ada di kolom dinilai_id pada KpiPenilaian
                                 $hasRecord = \App\Models\KpiPenilaian::where('dinilai_id', $pegawai->id)
-                                    ->where('penilai_id', Auth::user()->id)
+                                    ->where('penilai_id', Auth::user()->pegawai->id)
                                     ->where('periode_id', $periode->id)
                                     ->exists();
                             @endphp

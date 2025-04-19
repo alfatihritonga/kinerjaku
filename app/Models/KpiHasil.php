@@ -21,7 +21,7 @@ class KpiHasil extends Model
 
     public function pegawai()
     {
-        return $this->belongsTo(User::class, 'dinilai_id');
+        return $this->belongsTo(Pegawai::class, 'dinilai_id');
     }
 
     public function periode()

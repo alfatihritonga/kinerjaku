@@ -13,6 +13,7 @@ use App\Http\Controllers\NilaiKedisiplinanController;
 use App\Http\Controllers\PeriodePenilaianController;
 use App\Http\Controllers\SubKriteriaController;
 use App\Http\Controllers\UnitKerjaController;
+use App\Http\Controllers\PegawaiController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserProfileController;
 use Illuminate\Support\Facades\Auth;
@@ -25,6 +26,9 @@ Route::post('logout', [AuthController::class, 'logout'])->name('logout')->middle
 Route::middleware('auth')->group(function () {
     Route::get('/', function () {
         return redirect()->route('home');
+    });
+    Route::get('/tes', function () {
+        return Auth::user()->pegawai->jabatan->level;
     });
     
     Route::get('home', [DashboardController::class, 'index'])->name('home');
@@ -39,9 +43,11 @@ Route::middleware('auth')->group(function () {
     
     Route::resource('jabatan', JabatanController::class);
     
-    Route::resource('pegawai', UserController::class);
+    Route::resource('pegawai', PegawaiController::class);
     Route::get('unit-kerja/by/{divisiId}', GetUnitKerjaController::class);
     
+    Route::resource('pengguna', UserController::class);
+
     Route::resource('kriteria', KriteriaController::class);
     
     Route::resource('subkriteria', SubKriteriaController::class);

@@ -30,26 +30,6 @@
                 </div>
 
                 <div class="form-group row">
-                    <label for="email" class="col-sm-3 col-form-label">Email</label>
-                    <div class="col-sm-9">
-                        <input type="email" class="form-control" id="email" name="email" placeholder="Email"
-                            required>
-                        <x-validation-error error="email" />
-                    </div>
-                </div>
-
-                <div class="form-group row">
-                    <label for="password" class="col-sm-3 col-form-label">Password</label>
-                    <div class="col-sm-9">
-                        <input type="text" class="form-control" id="password" name="password" placeholder="Password"
-                            required>
-                        <x-validation-error error="password" />
-                        <button type="button" class="btn btn-sm btn-success mt-3"
-                            onclick="generatePassword()">Generate</button>
-                    </div>
-                </div>
-
-                <div class="form-group row">
                     <label for="divisi" class="col-sm-3 col-form-label">Divisi</label>
                     <div class="col-sm-9">
                         <select name="divisi_id" id="divisi" class="form-control">

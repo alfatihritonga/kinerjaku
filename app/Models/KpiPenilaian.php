@@ -18,12 +18,12 @@ class KpiPenilaian extends Model
 
     public function penilai()
     {
-        return $this->belongsTo(User::class, 'penilai_id');
+        return $this->belongsTo(Pegawai::class, 'penilai_id');
     }
 
     public function dinilai()
     {
-        return $this->belongsTo(User::class, 'dinilai_id');
+        return $this->belongsTo(Pegawai::class, 'dinilai_id');
     }
 
     public function periode()

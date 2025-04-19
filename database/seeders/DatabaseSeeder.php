@@ -17,9 +17,12 @@ class DatabaseSeeder extends Seeder
             DivisiSeeder::class,
             UnitKerjaSeeder::class,
             JabatanSeeder::class,
+            PegawaiSeeder::class,
             UserSeeder::class,
             KriteriaSeeder::class,
             SubKriteriaSeeder::class,
+            PeriodePenilaianSeeder::class,
+            NilaiSubKriteriaSeeder::class,
         ]);
     }
 }

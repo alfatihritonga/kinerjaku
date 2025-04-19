@@ -10,7 +10,6 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        // $periode_aktif = PeriodePenilaian::where('status', 'open')->latest()->first();
         $periode_aktif = PeriodePenilaian::where('status', 'open')->latest()->get();
 
         // if ($periode_aktif->isEmpty()) {

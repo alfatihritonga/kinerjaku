@@ -13,11 +13,11 @@ return new class extends Migration
     {
         Schema::create('kpi_hasils', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('dinilai_id')->constrained('users')->cascadeOnDelete();
+            $table->foreignId('dinilai_id')->constrained('pegawais')->cascadeOnDelete();
             $table->foreignId('periode_id')->constrained('periode_penilaians')->cascadeOnDelete();
-            $table->foreignId('penilai_satu_id')->nullable()->constrained('users')->cascadeOnDelete()->default(null);
+            $table->foreignId('penilai_satu_id')->nullable()->constrained('pegawais')->cascadeOnDelete()->default(null);
             $table->decimal('nilai_oleh_satu')->nullable();
-            $table->foreignId('penilai_dua_id')->nullable()->constrained('users')->cascadeOnDelete()->default(null);
+            $table->foreignId('penilai_dua_id')->nullable()->constrained('pegawais')->cascadeOnDelete()->default(null);
             $table->decimal('nilai_oleh_dua')->nullable();
             $table->decimal('nilai_kedisiplinan')->nullable();
             $table->timestamps();

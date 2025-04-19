@@ -4,13 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\KpiDetailPenilaian;
 use App\Models\KpiHasil;
-use App\Models\KpiHasilKasubid;
-use App\Models\KpiHasilStaff;
 use App\Models\KpiPenilaian;
 use App\Models\Kriteria;
+use App\Models\Pegawai;
 use App\Models\PeriodePenilaian;
 use App\Models\SubKriteria;
-use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -37,35 +35,63 @@ class KpiPenilaianController extends Controller
         } elseif (now()->format('Y-m-d') > $periode->tanggal_selesai) {
             return redirect()->route('home')->with('error', 'Periode Penilaian tidak dapat diakses.');
         }
-        
-        // Pegawai yang bisa dinilai (hanya bawahan langsung)
-        if (Auth::user()->jabatan->level >= 3) {
-            $pegawai_dinilai = User::where('id', '!=', Auth::id())
-            ->where('unit_kerja_id', Auth::user()->unitKerja->id)
-            ->whereHas('jabatan', function ($query) {
-                $query->where('level', '>', Auth::user()->jabatan->level);
-            })
-            ->get();
-        } elseif (Auth::user()->jabatan->level == 1) {
-            $pegawai_dinilai = User::where('id', '!=', Auth::id())
-            ->where('divisi_id', Auth::user()->divisi->id)
-            ->get();
-        }
-        else {
-            $pegawai_dinilai = User::where('id', '!=', Auth::id())
-            ->whereHas('jabatan', function ($query) {
-                $query->whereNotIn('level', [1, 2, 3]) // Mengecualikan level 1, 2 & 3
-              ->where('level', 4);
-            })
-            ->orWhere(function ($query) {
-                $query->where('divisi_id', Auth::user()->divisi->id)
-                      ->whereHas('jabatan', function ($subQuery) {
-                          $subQuery->whereNotIn('level', [1, 2, 3]); // Pastikan tetap mengecualikan
-                      });
-            })
-            ->get();
+
+        $idPenilai = Auth::user()->pegawai->id;
+        $unitKerjaPenilai = Auth::user()->pegawai->unitKerja->id;
+        $divisiPenilai = Auth::user()->pegawai->divisi->id;
+        $levelPenilai = Auth::user()->pegawai->jabatan->level;
+
+        if ($levelPenilai == 2) {
+            $pegawai_dinilai = Pegawai::where('id', '!=', $idPenilai)
+            ->where('aktif', true)
+                ->where(function ($query) use ($divisiPenilai) {
+                    $query->whereHas('jabatan', function ($q) {
+                        $q->where('level', 5);
+                    })
+                    ->orWhere(function ($subQuery) use ($divisiPenilai) {
+                        $subQuery->where('divisi_id', $divisiPenilai)
+                        ->whereHas('jabatan', function ($q) {
+                            $q->whereNotIn('level', [1, 2, 3, 4]);
+                        });
+                    });
+                })
+                ->get();
         }
         
+        if ($levelPenilai == 3) {
+            $pegawai_dinilai = Pegawai::where('id', '!=', $idPenilai)
+            ->where('aktif', true)
+            ->where('divisi_id', $divisiPenilai)
+            ->whereHas('jabatan', function ($query) {
+                $query->where('level', '>', 4);
+            })
+            ->get();
+        }
+
+        if ($levelPenilai == 1) {
+            $pegawai_dinilai = Pegawai::where('id', '!=', $idPenilai)
+            ->where('aktif', true)
+            ->where('divisi_id', $divisiPenilai)
+            ->get();
+        }
+
+        if ($levelPenilai == 4) {
+            $pegawai_dinilai = Pegawai::where('id', '!=', $idPenilai)
+            ->where('aktif', true)
+            ->where('unit_kerja_id', $unitKerjaPenilai)
+            ->get();
+        }
+
+        if ($levelPenilai == 5) {
+            $pegawai_dinilai = Pegawai::where('id', '!=', $idPenilai)
+            ->where('aktif', true)
+            ->where('unit_kerja_id', $unitKerjaPenilai)
+            ->whereHas('jabatan', function ($query) use ($levelPenilai) {
+                $query->where('level', '>', $levelPenilai);
+            })
+            ->get();
+        }
+
         // return response()->json($pegawai_dinilai);
         return view('penilaian.pegawai.index', compact('pegawai_dinilai', 'periode'));
     }
@@ -73,13 +99,19 @@ class KpiPenilaianController extends Controller
     /**
     * Show the form for creating a new resource.
     */
-    public function create($periodeId, User $pegawai)
+    public function create($periodeId, Pegawai $pegawai)
     {
-        if (Auth::user()->id == $pegawai->id) {
+        // dd($pegawai);
+        $idPenilai = Auth::user()->pegawai->id;
+        $unitKerjaPenilai = Auth::user()->pegawai->unitKerja->id;
+        $divisiPenilai = Auth::user()->pegawai->divisi->id;
+        $levelPenilai = Auth::user()->pegawai->jabatan->level;
+
+        if ($idPenilai == $pegawai->id) {
             return redirect()->route('penilaian.index', $periodeId)->with('warning', 'Anda tidak bisa menilai diri sendiri.');
         }
         
-        if (Auth::user()->jabatan->level > $pegawai->jabatan->level) {
+        if ($levelPenilai > $pegawai->jabatan->level) {
             return response()->json([
                 'status' => 'unauthorized',
                 'message' => 'Anda tidak berhak menilai atasan',
@@ -88,7 +120,7 @@ class KpiPenilaianController extends Controller
                     '_back' => route('penilaian.index', $periodeId)
                 ]
             ]);
-        } elseif (Auth::user()->jabatan->level == $pegawai->jabatan->level) {
+        } elseif ($levelPenilai == $pegawai->jabatan->level) {
             return response()->json([
                 'status' => 'unauthorized',
                 'message' => 'Anda tidak berhak menilai pegawai dengan jabatan yang setara',
@@ -99,20 +131,20 @@ class KpiPenilaianController extends Controller
             ]);
         }
 
-        if (Auth::user()->jabatan->level == 4 && Auth::user()->unit_kerja_id != $pegawai->unit_kerja_id) {
+        if ($levelPenilai == 4 && $unitKerjaPenilai != $pegawai->unit_kerja_id) {
             return response()->json([
                 'status' => 'unauthorized',
                 'message' => 'Anda tidak berhak menilai pegawai di unit kerja lain',
                 'data' => [
-                    'level_penilai' => 'Kasubid',
-                    'unit_kerja_penilai' => Auth::user()->unitKerja->nama,
+                    'level_penilai' => Auth::user()->pegawai->jabatan->nama,
+                    'unit_kerja_penilai' => Auth::user()->pegawai->unitKerja->nama,
                     'unit_kerja_dinilai' => $pegawai->unitKerja->nama,
                 ]
             ]);
         }
 
         $hasRecord = KpiPenilaian::where('dinilai_id', $pegawai->id)
-                    ->where('penilai_id', Auth::user()->id)
+                    ->where('penilai_id', $idPenilai)
                     ->where('periode_id', $periodeId)
                     ->exists();
         if ($hasRecord) {
@@ -145,7 +177,7 @@ class KpiPenilaianController extends Controller
     /**
     * Store a newly created resource in storage.
     */
-    public function store(Request $request, $periodeId, User $pegawai)
+    public function store(Request $request, $periodeId, Pegawai $pegawai)
     {
         $request->validate([
             'nilai' => 'required|array',
@@ -154,7 +186,7 @@ class KpiPenilaianController extends Controller
         ]);
         
         $kpiPenilaian = KpiPenilaian::create([
-            'penilai_id' => Auth::id(),
+            'penilai_id' => Auth::user()->pegawai->id,
             'dinilai_id' => $pegawai->id,
             'periode_id' => $periodeId,
             'catatan' => $request->catatan
@@ -199,15 +231,15 @@ class KpiPenilaianController extends Controller
 
         if ($kpiHasil) {
             // Jika sudah ada data, update nilai
-            if (Auth::user()->jabatan->level > 2) {
+            if (Auth::user()->pegawai->jabatan->level > 2) {
                 if ($kpiHasil->penilai_satu_id) {
                     $kpiHasil->update([
-                        'penilai_dua_id' => Auth::user()->id,
+                        'penilai_dua_id' => Auth::user()->pegawai->id,
                         'nilai_oleh_dua' => $totalAkhirKPI,
                     ]);
                 } else {
                     $kpiHasil->update([
-                        'penilai_satu_id' => Auth::user()->id,
+                        'penilai_satu_id' => Auth::user()->pegawai->id,
                         'nilai_oleh_satu' => $totalAkhirKPI,
                     ]);
                 }
@@ -216,12 +248,12 @@ class KpiPenilaianController extends Controller
                     $kpiHasil->update([
                         'penilai_dua_id' => $kpiHasil->penilai_satu_id,
                         'nilai_oleh_dua' => $kpiHasil->nilai_oleh_satu,
-                        'penilai_satu_id' => Auth::user()->id,
+                        'penilai_satu_id' => Auth::user()->pegawai->id,
                         'nilai_oleh_satu' => $totalAkhirKPI,
                     ]);
                 } else {
                     $kpiHasil->update([
-                        'penilai_satu_id' => Auth::user()->id,
+                        'penilai_satu_id' => Auth::user()->pegawai->id,
                         'nilai_oleh_satu' => $totalAkhirKPI,
                     ]);
                 }
@@ -231,7 +263,7 @@ class KpiPenilaianController extends Controller
             $data = [
                 'dinilai_id' => $pegawai->id,
                 'periode_id' => $periodeId,
-                'penilai_satu_id' => Auth::user()->id,
+                'penilai_satu_id' => Auth::user()->pegawai->id,
                 'nilai_oleh_satu' => $totalAkhirKPI,
             ];
             KpiHasil::create($data);

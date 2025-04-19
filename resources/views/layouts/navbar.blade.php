@@ -20,7 +20,7 @@
             <li class="nav-item fw-semibold d-none d-md-block ms-0">
                 <h1 class="welcome-text">
                     <span id="welcome-message">Good Morning</span>,
-                    <span class="text-black fw-bold">{{ Auth::user()->nama }}</span>
+                    <span class="text-black fw-bold">{{ Auth::user()->name }}</span>
                 </h1>
             </li>
         </ul>
@@ -42,7 +42,7 @@
                     <div class="dropdown-header text-center">
                         <img class="img-md rounded-circle" width="40"
                             src="{{ asset('assets/images/faces/default.png') }}" alt="Profile image">
-                        <p class="mb-1 mt-3 fw-semibold">{{ Auth::user()->nama }}</p>
+                        <p class="mb-1 mt-3 fw-semibold">{{ Auth::user()->name }}</p>
                         <p class="fw-light text-muted mb-0">{{ Auth::user()->email }}</p>
                     </div>
                     <a href="{{ route('user.profile') }}" class="dropdown-item"><i

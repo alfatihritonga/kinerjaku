@@ -24,10 +24,10 @@
                     <td>{{ $item->bulan }}</td>
                     <td>{{ $item->tahun }}</td>
                     <td>
-                        <a href="{{ route('hasil.kpi', [$item->id, 4]) }}" class="badge badge-primary text-decoration-none">
+                        <a href="{{ route('hasil.kpi', [$item->id, 5]) }}" class="badge badge-primary text-decoration-none">
                             Kasubid
                         </a>
-                        <a href="{{ route('hasil.kpi', [$item->id, 5]) }}" class="badge badge-primary text-decoration-none">
+                        <a href="{{ route('hasil.kpi', [$item->id, 6]) }}" class="badge badge-primary text-decoration-none">
                             Staff
                         </a>
                     </td>

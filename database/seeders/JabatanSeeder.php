@@ -19,10 +19,11 @@ class JabatanSeeder extends Seeder
             ['nama' => 'Wakil Ketua 1', 'level' => 3],
             ['nama' => 'Wakil Ketua 2', 'level' => 3],
             ['nama' => 'Wakil Ketua 3', 'level' => 3],
-            ['nama' => 'Kepala', 'level' => 3],
-            ['nama' => 'Kepala Bidang', 'level' => 3],
-            ['nama' => 'Kepala Sub Bidang', 'level' => 4],
-            ['nama' => 'Staff', 'level' => 5],
+            ['nama' => 'Kepala', 'level' => 4],
+            ['nama' => 'Kepala Bidang', 'level' => 5],
+            ['nama' => 'Kepala Sub Bidang', 'level' => 5],
+            ['nama' => 'Staff', 'level' => 6],
+            ['nama' => 'Bendahara YBKS', 'level' => 1],
         ]);
     }
 }

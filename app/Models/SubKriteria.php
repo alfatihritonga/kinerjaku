@@ -26,6 +26,11 @@ class SubKriteria extends Model
         return $this->belongsTo(Jabatan::class);
     }
 
+    public function nilaiKeterangan()
+    {
+        return $this->hasMany(NilaiSubKriteria::class);
+    }
+
     public function kpiDetailPenilaian()
     {
         return $this->hasMany(KpiDetailPenilaian::class);

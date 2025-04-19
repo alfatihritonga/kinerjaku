@@ -15,10 +15,11 @@ class DivisiSeeder extends Seeder
     {
         Divisi::insert([
             ['nama' => 'Yayasan'],
+            ['nama' => 'Bendahara YBKS'],
             ['nama' => 'Manajemen'],
             ['nama' => 'Akademik'],
             ['nama' => 'Kemahasiswaan'],
-            ['nama' => 'Keuangan, Kepegawaian dan Umum'],
+            ['nama' => 'Keuangan, Kepegawaian dan Operasional'],
         ]);
     }
 }

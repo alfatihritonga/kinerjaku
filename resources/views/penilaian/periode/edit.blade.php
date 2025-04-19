@@ -3,15 +3,6 @@
 @section('title', 'Edit Periode Penilaian')
 
 @section('content')
-    <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="{{ route('home') }}"><i class="mdi mdi-home"></i></a></li>
-            <li class="breadcrumb-item"><a href="{{ route('periode.index') }}" class="text-decoration-none">Periode
-                    Penilaian</a></li>
-            <li class="breadcrumb-item active" aria-current="page">Edit</li>
-        </ol>
-    </nav>
-
     <h1 class="h3">Edit Periode Penilaian</h1>
     <p>Halaman untuk mengubah periode penilaian</p>
 

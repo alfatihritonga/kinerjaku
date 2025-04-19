@@ -33,6 +33,12 @@
                 </a>
             </li>
             <li class="nav-item">
+                <a class="nav-link" href="{{ route('pengguna.index') }}">
+                    <i class="mdi mdi-account menu-icon"></i>
+                    <span class="menu-title">Pengguna</span>
+                </a>
+            </li>
+            <li class="nav-item">
                 <a class="nav-link" data-bs-toggle="collapse" href="#kpi" aria-expanded="false" aria-controls="kpi">
                     <i class="menu-icon mdi mdi-list-box"></i>
                     <span class="menu-title">KPI</span>

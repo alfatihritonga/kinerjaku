@@ -18,39 +18,16 @@ class User extends Authenticatable
      * @var list<string>
      */
     protected $fillable = [
-        'nama',
-        'nip',
+        'name',
         'email',
         'password',
-        'divisi_id',
-        'unit_kerja_id',
-        'jabatan_id',
+        'pegawai_id',
         'role'
     ];
 
-    public function jabatan()
+    public function pegawai()
     {
-        return $this->belongsTo(Jabatan::class);
-    }
-
-    public function divisi()
-    {
-        return $this->belongsTo(Divisi::class);
-    }
-
-    public function unitKerja()
-    {
-        return $this->belongsTo(UnitKerja::class, 'unit_kerja_id');
-    }
-
-    public function atasan()
-    {
-        return $this->belongsTo(User::class, 'atasan_id');
-    }
-
-    public function bawahans()
-    {
-        return $this->hasMany(User::class, 'atasan_id');
+        return $this->belongsTo(Pegawai::class);
     }
 
     public function penilaianSebagaiPenilai()

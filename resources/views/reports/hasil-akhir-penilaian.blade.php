@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>
-        Hasil Akhir Penilaian {{ $level == 4 ? 'Kasubid' : 'Staff' }} -
+        Hasil Akhir Penilaian {{ $level == 5 ? 'Kasubid' : 'Staff' }} -
         Periode
         {{ optional($hasilKpi->first()->periode)->bulan . ' ' . optional($hasilKpi->first()->periode)->tahun }}
     </title>
@@ -67,7 +67,7 @@
 <body>
     <table>
         <tr>
-            <td class="fs-14 text-center text-bold">Hasil Akhir Penilaian {{ $level == 4 ? 'Kasubid' : 'Staff' }}</td>
+            <td class="fs-14 text-center text-bold">Hasil Akhir Penilaian {{ $level == 5 ? 'Kasubid' : 'Staff' }}</td>
         </tr>
         <tr>
             <td class="fs-14 text-center text-bold">
