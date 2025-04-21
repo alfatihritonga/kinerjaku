@@ -34,7 +34,7 @@
                 @csrf
                 <div class="mb-3">
                     <label class="form-label">Password Lama</label>
-                    <input type="password" name="old_password" class="form-control">
+                    <input type="password" name="old_password" class="form-control" required>
                 </div>
                 <div class="mb-3">
                     <label class="form-label">Password Baru</label>
