@@ -35,13 +35,25 @@
             </li>
             <li class="nav-item dropdown user-dropdown">
                 <a class="nav-link" id="UserDropdown" href="#" data-bs-toggle="dropdown" aria-expanded="false">
-                    <img class="img-xs rounded-circle" src="{{ asset('assets/images/faces/default.png') }}"
-                        alt="Profile image">
+                    {{-- <img class="img-xs rounded-circle" src="{{ asset('assets/images/faces/default.png') }}"
+                        alt="Profile image"> --}}
+                        <div class="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center mx-auto"
+                            style="width: 40px; height: 40px; font-size: 14px; overflow: hidden; line-height: 1;">
+                            <span class="text-truncate d-block text-center" style="max-width: 100%; white-space: nowrap;">
+                                {{ auth()->user()->initials() }}
+                            </span>
+                        </div>
                 </a>
                 <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="UserDropdown">
                     <div class="dropdown-header text-center">
-                        <img class="img-md rounded-circle" width="40"
-                            src="{{ asset('assets/images/faces/default.png') }}" alt="Profile image">
+                        {{-- <img class="img-md rounded-circle" width="40"
+                            src="{{ asset('assets/images/faces/default.png') }}" alt="Profile image"> --}}
+                        <div class="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center mx-auto"
+                            style="width: 40px; height: 40px; font-size: 14px; overflow: hidden; line-height: 1;">
+                            <span class="text-truncate d-block text-center" style="max-width: 100%; white-space: nowrap;">
+                                {{ auth()->user()->initials() }}
+                            </span>
+                        </div>
                         <p class="mb-1 mt-3 fw-semibold">{{ Auth::user()->name }}</p>
                         <p class="fw-light text-muted mb-0">{{ Auth::user()->email }}</p>
                     </div>
