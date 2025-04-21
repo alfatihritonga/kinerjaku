@@ -77,10 +77,18 @@ class KpiHasilController extends Controller
     {
         //
     }
+
+    public function periode()
+    {
+        $periode = PeriodePenilaian::all();
+
+        return view('penilaian.periode.hasil', compact('periode'));
+    }
     
-    public function hasil()
+    public function hasil($periodeId)
     {
         $penilaians = KpiPenilaian::where('penilai_id', Auth::user()->pegawai->id)
+        ->where('periode_id', $periodeId)
         ->with([
             'hasilPenilaian'
         ])
@@ -90,7 +98,6 @@ class KpiHasilController extends Controller
             return back()->with('warning', 'Hasil Penilaian belum ada.');
         }
         
-        // return response()->json($penilaians);
         return view('penilaian.pegawai.hasil', compact('penilaians'));
     }
 
@@ -115,8 +122,11 @@ class KpiHasilController extends Controller
     {
         $hasilKpi = KpiHasil::with(['pegawai.jabatan'])
         ->where('periode_id', $periodeId)
-        ->whereHas('pegawai.jabatan', function ($q) use ($level) { 
-            $q->where('level', $level);
+        ->whereHas('pegawai', function ($q) use ($level) {
+            $q->where('aktif', true) // filter status aktif
+              ->whereHas('jabatan', function ($q2) use ($level) {
+                  $q2->where('level', $level);
+              });
         })
         ->orderByRaw('(((COALESCE(nilai_oleh_satu, 0) + COALESCE(nilai_oleh_dua, 0)) / 2) + COALESCE(nilai_kedisiplinan, 0)) / 2 desc')
         ->get();

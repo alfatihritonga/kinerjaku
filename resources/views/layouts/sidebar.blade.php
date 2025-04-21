@@ -80,7 +80,7 @@
                 </a>
                 <div class="collapse" id="penilaian">
                     <ul class="nav flex-column sub-menu">
-                        <li class="nav-item"> <a class="nav-link" href="{{ route('penilaian.hasil') }}">Hasil</a></li>
+                        <li class="nav-item"> <a class="nav-link" href="{{ route('penilaian.periode') }}">Hasil</a></li>
                     </ul>
                 </div>
             </li>

@@ -15,11 +15,11 @@ class PeriodePenilaianSeeder extends Seeder
     {
         PeriodePenilaian::insert([
             [
-                'keterangan' => 'Penilaian April 2025',
-                'bulan' => 'April',
+                'keterangan' => 'Penilaian Maret 2025',
+                'bulan' => 'Maret',
                 'tahun' => '2025',
-                'tanggal_mulai' => '2025-04-18',
-                'tanggal_selesai' => '2025-04-20',
+                'tanggal_mulai' => '2025-04-21',
+                'tanggal_selesai' => '2025-04-26',
                 'status' => 'open',
             ]
         ]);

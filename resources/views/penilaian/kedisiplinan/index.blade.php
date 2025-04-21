@@ -12,7 +12,7 @@
         <thead>
             <tr>
                 <th data-field="id" data-sortable="true">No</th>
-                <th data-field="keterangan" data-sortable="true">keterangan</th>
+                <th data-field="keterangan" data-sortable="true">Keterangan</th>
                 <th data-field="bulan" data-sortable="true">Bulan</th>
                 <th data-field="tahun" data-sortable="true">Tahun</th>
                 <th>Action</th>
@@ -26,9 +26,9 @@
                     <td>{{ $item->bulan }}</td>
                     <td>{{ $item->tahun }}</td>
                     <td>
-                        <a href="" class="badge badge-primary text-decoration-none">
+                        {{-- <a href="" class="badge badge-primary text-decoration-none">
                             <i class="icon-eye"></i>
-                        </a>
+                        </a> --}}
                         <a href="{{ route('nilai.kedisiplinan.import', $item->id) }}"
                             class="badge badge-success text-decoration-none">
                             <i class="icon-cloud-upload me-1"></i> Import

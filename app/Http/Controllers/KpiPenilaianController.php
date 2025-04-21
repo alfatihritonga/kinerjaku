@@ -225,48 +225,54 @@ class KpiPenilaianController extends Controller
     }
     
     function simpanKpiHasil($pegawai, $periodeId, $totalAkhirKPI) {
+        $penilai = Auth::user()->pegawai;
+
         $kpiHasil = KpiHasil::where('periode_id', $periodeId)
         ->where('dinilai_id', $pegawai->id)
         ->first();
 
         if ($kpiHasil) {
             // Jika sudah ada data, update nilai
-            if (Auth::user()->pegawai->jabatan->level > 2) {
-                if ($kpiHasil->penilai_satu_id) {
+            // Cek apakah penilai ke 2 sudah terisi
+            if ($kpiHasil->penilai_dua_id) {
+                // Cek level jabatan penilai
+                if ($penilai->jabatan->level > 4) {
                     $kpiHasil->update([
-                        'penilai_dua_id' => Auth::user()->pegawai->id,
+                        'penilai_satu_id' => $kpiHasil->penilai_dua_id,
+                        'nilai_oleh_satu' => $kpiHasil->nilai_oleh_dua,
+                        'penilai_dua_id' => $penilai->id,
                         'nilai_oleh_dua' => $totalAkhirKPI,
                     ]);
                 } else {
                     $kpiHasil->update([
-                        'penilai_satu_id' => Auth::user()->pegawai->id,
+                        'penilai_satu_id' => $penilai->id,
                         'nilai_oleh_satu' => $totalAkhirKPI,
                     ]);
                 }
             } else {
-                if ($kpiHasil->penilai_satu_id) {
-                    $kpiHasil->update([
-                        'penilai_dua_id' => $kpiHasil->penilai_satu_id,
-                        'nilai_oleh_dua' => $kpiHasil->nilai_oleh_satu,
-                        'penilai_satu_id' => Auth::user()->pegawai->id,
-                        'nilai_oleh_satu' => $totalAkhirKPI,
-                    ]);
-                } else {
-                    $kpiHasil->update([
-                        'penilai_satu_id' => Auth::user()->pegawai->id,
-                        'nilai_oleh_satu' => $totalAkhirKPI,
-                    ]);
-                }
+                $kpiHasil->update([
+                    'penilai_dua_id' => $penilai->id,
+                    'nilai_oleh_dua' => $totalAkhirKPI,
+                ]);
             }
         } else {
             // Jika belum ada data, buat baru
-            $data = [
-                'dinilai_id' => $pegawai->id,
-                'periode_id' => $periodeId,
-                'penilai_satu_id' => Auth::user()->pegawai->id,
-                'nilai_oleh_satu' => $totalAkhirKPI,
-            ];
-            KpiHasil::create($data);
+            // Cek level jabatan penilai
+            if ($penilai->jabatan->level <= 2) {
+                KpiHasil::create([
+                    'dinilai_id' => $pegawai->id,
+                    'periode_id' => $periodeId,
+                    'penilai_satu_id' => $penilai->id,
+                    'nilai_oleh_satu' => $totalAkhirKPI,
+                ]);
+            } else {
+                KpiHasil::create([
+                    'dinilai_id' => $pegawai->id,
+                    'periode_id' => $periodeId,
+                    'penilai_dua_id' => $penilai->id,
+                    'nilai_oleh_dua' => $totalAkhirKPI,
+                ]);
+            }
         }
     }
     

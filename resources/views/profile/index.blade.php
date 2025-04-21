@@ -16,7 +16,7 @@
                 @csrf
                 <div class="mb-3">
                     <label class="form-label">Nama</label>
-                    <input type="text" name="nama" class="form-control" value="{{ Auth::user()->nama }}">
+                    <input type="text" name="name" class="form-control" value="{{ Auth::user()->name }}">
                 </div>
                 <div class="mb-3">
                     <label class="form-label">Email</label>

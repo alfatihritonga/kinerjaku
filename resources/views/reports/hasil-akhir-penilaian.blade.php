@@ -94,9 +94,9 @@
             </tr>
             <tr>
                 <th style="max-width: 100px;">
-                    {{ $level == 4 ? 'Ketua' : 'Ketua YBKS/Ketua Stmik/Bendahara YBKS/Waka/KA. Pusdatin' }}
+                    {{ $level == 5 ? 'Ketua' : 'Ketua YBKS/Ketua Stmik/Bendahara YBKS/Waka/KA. Pusdatin' }}
                 </th>
-                <th style="max-width: 100px;">{{ $level == 4 ? 'Waka' : 'Kaprodi/Kabid/Kasubid' }}</th>
+                <th style="max-width: 100px;">{{ $level == 5 ? 'Waka' : 'Kaprodi/Kabid/Kasubid' }}</th>
             </tr>
         </thead>
         <tbody>

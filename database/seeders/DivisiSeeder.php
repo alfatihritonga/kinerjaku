@@ -20,6 +20,7 @@ class DivisiSeeder extends Seeder
             ['nama' => 'Akademik'],
             ['nama' => 'Kemahasiswaan'],
             ['nama' => 'Keuangan, Kepegawaian dan Operasional'],
+            ['nama' => 'Pusat Riset & Pengabdian Masyarakat'],
         ]);
     }
 }

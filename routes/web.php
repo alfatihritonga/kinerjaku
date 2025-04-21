@@ -1,5 +1,6 @@
 <?php
 
+use App\Exports\KpiHasilExport;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DivisiController;
@@ -16,8 +17,10 @@ use App\Http\Controllers\UnitKerjaController;
 use App\Http\Controllers\PegawaiController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserProfileController;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use Maatwebsite\Excel\Facades\Excel;
 
 Route::get('login', [AuthController::class, 'showLogin'])->name('login')->middleware('guest');
 Route::post('login', [AuthController::class, 'login']);
@@ -80,7 +83,9 @@ Route::middleware('auth')->group(function () {
         ->name('nilai.kedisiplinan.import.data');
 
     Route::resource('hasil', KpiHasilController::class);
-    Route::get('hasil-penilaian', [KpiHasilController::class, 'hasil'])
+    Route::get('hasil-penilaian', [KpiHasilController::class, 'periode'])
+        ->name('penilaian.periode');
+    Route::get('hasil-penilaian/periode/{periodeId}', [KpiHasilController::class, 'hasil'])
         ->name('penilaian.hasil');
 
     Route::get('hasil/periode/{periodeId}/kategori/{level}', [KpiHasilController::class, 'hasilAkhir'])
@@ -97,4 +102,23 @@ Route::middleware('auth')->group(function () {
     
     Route::post('profile/update-password', [UserProfileController::class, 'updatePassword'])
         ->name('user.update.password');
+
+    Route::get('/export-kpi-hasil', function (Request $request) {
+        $periodeId = $request->query('periode_id');
+        $level = $request->query('level');
+
+        // Validasi sederhana
+        if (!$periodeId || !$level) {
+            return response()->json([
+                'message' => 'Parameter periode_id dan level wajib diisi.'
+            ], 400);
+        }
+
+        $filename = $level == '6'
+            ? 'Hasil KPI Staff.xlsx'
+            : 'Hasil KPI Kabid_Kasubid.xlsx';
+
+        return Excel::download(new KpiHasilExport($periodeId, $level), $filename);
+    })
+    ->name('export.hasil.kpi');
 });

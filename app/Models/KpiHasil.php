@@ -24,13 +24,34 @@ class KpiHasil extends Model
         return $this->belongsTo(Pegawai::class, 'dinilai_id');
     }
 
+    public function penilaiSatu()
+    {
+        return $this->belongsTo(Pegawai::class, 'penilai_satu_id');
+    }
+
+    public function penilaiDua()
+    {
+        return $this->belongsTo(Pegawai::class, 'penilai_dua_id');
+    }
+
     public function periode()
     {
         return $this->belongsTo(PeriodePenilaian::class);
     }
-
-    public function penilaian()
+    
+    public function getCatatanPenilaiSatuAttribute()
     {
-        return $this->belongsTo(KpiPenilaian::class, 'dinilai_id');
+        return KpiPenilaian::where('dinilai_id', $this->dinilai_id)
+                ->where('penilai_id', $this->penilai_satu_id)
+                ->where('periode_id', $this->periode_id)
+                ->value('catatan');
+    }
+    
+    public function getCatatanPenilaiDuaAttribute()
+    {
+        return KpiPenilaian::where('dinilai_id', $this->dinilai_id)
+                ->where('penilai_id', $this->penilai_dua_id)
+                ->where('periode_id', $this->periode_id)
+                ->value('catatan');
     }
 }

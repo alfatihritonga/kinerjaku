@@ -3,7 +3,7 @@
 namespace App\Imports;
 
 use App\Models\KpiHasil;
-use App\Models\User;
+use App\Models\Pegawai;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 
@@ -16,7 +16,7 @@ class NilaiDisiplinImport implements ToModel, WithHeadingRow
     */
     public function model(array $row)
     {
-        $pegawai = User::where('nip', $row['nip'])->first();
+        $pegawai = Pegawai::where('nip', $row['nip'])->first();
         
         $periodeId = session('periode_id');
         
@@ -26,9 +26,6 @@ class NilaiDisiplinImport implements ToModel, WithHeadingRow
             ->first();
 
             if ($kpiHasil) {
-                // $kpiHasil->update([
-                //     'nilai_kediplinan' => $row['nilai_kedisiplinan'],
-                // ]);
                 $kpiHasil->nilai_kedisiplinan = $row['nilai_kedisiplinan'];
                 $kpiHasil->save();
 

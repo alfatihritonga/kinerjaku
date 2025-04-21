@@ -19,6 +19,8 @@
             <tr>
                 <th data-field="id" data-sortable="true">No</th>
                 <th data-field="keterangan" data-sortable="true">Keterangan</th>
+                <th data-field="bulan" data-sortable="true">Bulan</th>
+                <th data-field="tahun" data-sortable="true">Tahun</th>
                 <th data-field="tanggal_mulai" data-sortable="true">Tanggal Mulai</th>
                 <th data-field="tanggal_selesai" data-sortable="true">Tanggal Selesai</th>
                 <th data-field="status" data-sortable="true">Status</th>
@@ -30,6 +32,8 @@
                 <tr>
                     <th scope="row">{{ $loop->iteration }}</th>
                     <td>{{ $periode->keterangan }}</td>
+                    <td>{{ $periode->bulan }}</td>
+                    <td>{{ $periode->tahun }}</td>
                     <td>{{ $periode->tanggal_mulai }}</td>
                     <td>{{ $periode->tanggal_selesai }}</td>
                     <td>{{ ucfirst($periode->status) }}</td>

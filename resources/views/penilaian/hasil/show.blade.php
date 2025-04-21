@@ -9,8 +9,12 @@
     <div id="toolbar">
         <a href="{{ route('hasil.kpi.cetak', [$hasilKpi->first()->periode_id, $level]) }}"
             class="btn btn-primary btn-icon-text">
-            <i class="mdi mdi-printer btn-icon-prepend"></i> Cetak Laporan
+            <i class="mdi mdi-printer btn-icon-prepend"></i> Cetak
         </a>
+        <a href="{{ route('export.hasil.kpi', ['periode_id' => $hasilKpi->first()->periode_id, 'level' => $level]) }}"
+            class="btn btn-success btn-icon-text">
+            <i class="mdi mdi-microsoft-excel btn-icon-prepend"></i> Ekspor
+        </a>        
     </div>
 
     <table data-toggle="table" data-pagination="true" data-search="true" data-toolbar="#toolbar">
@@ -21,18 +25,21 @@
                 <th rowspan="2" data-field="divisi" data-sortable="true">Divisi</th>
                 <th rowspan="2" data-field="unit_kerja" data-sortable="true">Unit Kerja</th>
                 <th colspan="2">Nilai Berdasarkan Pimpinan</th>
-                <th rowspan="2" data-field="total_nilai" data-sortable="true">Total Nilai
+                <th rowspan="2" data-field="total_nilai" data-sortable="true">Total Nilai</th>
+                <th rowspan="2" data-field="nilai_kedisiplinan" data-sortable="true">NilaiKedisiplinan</th>
+                <th rowspan="2" data-field="grand_total" data-sortable="true">Grand Total</th>
+                <th rowspan="2" data-field="catatan_satu" data-sortable="true">
+                    {{ $level == 5 ? 'Catatan Ketua' : 'Catatan Ketua YBKS/Ketua Stmik/Bendahara YBKS/Waka/KA. Pusdatin' }}</th>
                 </th>
-                <th rowspan="2" data-field="nilai_kedisiplinan" data-sortable="true">Nilai
-                    Kedisiplinan</th>
-                <th rowspan="2" data-field="grand_total" data-sortable="true">Grand Total
+                <th rowspan="2" data-field="catatan_dua" data-sortable="true">
+                    {{ $level == 5 ? 'Catatan Waka' : 'Catatan Kaprodi/Kabid/Kasubid' }}
                 </th>
             </tr>
             <tr>
                 <th data-field="nilai_oleh_satu" data-sortable="true">
-                    {{ $level == 4 ? 'Ketua' : 'Ketua YBKS/Ketua Stmik/Bendahara YBKS/Waka/KA. Pusdatin' }}</th>
+                    {{ $level == 5 ? 'Ketua' : 'Ketua YBKS/Ketua Stmik/Bendahara YBKS/Waka/KA. Pusdatin' }}</th>
                 <th data-field="nilai_oleh_dua" data-sortable="true">
-                    {{ $level == 4 ? 'Waka' : 'Kaprodi/Kabid/Kasubid' }}
+                    {{ $level == 5 ? 'Waka' : 'Kaprodi/Kabid/Kasubid' }}
                 </th>
             </tr>
         </thead>
@@ -61,6 +68,8 @@
                     <td>{{ $total_nilai }}</td>
                     <td>{{ $item->nilai_kedisiplinan ?? '-' }}</td>
                     <td>{{ $grand_total }}</td>
+                    <td>{{ $item->catatan_penilai_satu ?? '-' }}</td>
+                    <td>{{ $item->catatan_penilai_dua ?? '-' }}</td>
                 </tr>
             @endforeach
         </tbody>

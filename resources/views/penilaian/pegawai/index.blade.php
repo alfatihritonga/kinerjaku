@@ -34,7 +34,12 @@
     @if ($pegawai_dinilai->isEmpty())
         <div class="alert alert-warning">Anda tidak memiliki bawahan yang bisa dinilai.</div>
     @else
-        <table data-toggle="table" data-pagination="true" data-search="true">
+        <div id="toolbar">
+            <a href="{{ route('penilaian.hasil', $periode->id) }}" class="btn btn-primary btn-icon-text btn-sm">
+                <i class="btn-icon-prepend mdi mdi-view-list"></i>Hasil Penilaian
+            </a>
+        </div>
+        <table data-toggle="table" data-pagination="true" data-search="true" data-toolbar="#toolbar">
             <thead>
                 <tr>
                     <th>Nama Pegawai</th>
