@@ -79,6 +79,9 @@ class KpiPenilaianController extends Controller
             $pegawai_dinilai = Pegawai::where('id', '!=', $idPenilai)
             ->where('aktif', true)
             ->where('unit_kerja_id', $unitKerjaPenilai)
+            ->whereHas('jabatan', function ($query) {
+                $query->where('level', '>', 4);
+            })
             ->get();
         }
 
@@ -103,7 +106,7 @@ class KpiPenilaianController extends Controller
     {
         // dd($pegawai);
         $idPenilai = Auth::user()->pegawai->id;
-        $unitKerjaPenilai = Auth::user()->pegawai->unitKerja->id;
+        $unitKerjaPenilai = Auth::user()->pegawai->unitKerja->id ?? 1;
         $divisiPenilai = Auth::user()->pegawai->divisi->id;
         $levelPenilai = Auth::user()->pegawai->jabatan->level;
 
