@@ -11,7 +11,7 @@
                 <h4 class="fw-bold">Sisfo <span class="text-primary">KPI</span></h4>
             </a>
             <a class="navbar-brand brand-logo-mini" href="">
-                <img src="{{ asset('assets/images/logo-mini.svg') }}" alt="logo" />
+                <img src="{{ asset('assets/images/logo.jpg') }}" alt="logo" />
             </a>
         </div>
     </div>
@@ -39,7 +39,7 @@
                         alt="Profile image"> --}}
                         <div class="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center mx-auto"
                             style="width: 40px; height: 40px; font-size: 14px; overflow: hidden; line-height: 1;">
-                            <span class="text-truncate d-block text-center" style="max-width: 100%; white-space: nowrap;">
+                            <span class="text-truncate d-block text-center fw-bold" style="max-width: 100%; white-space: nowrap;">
                                 {{ auth()->user()->initials() }}
                             </span>
                         </div>
@@ -50,7 +50,7 @@
                             src="{{ asset('assets/images/faces/default.png') }}" alt="Profile image"> --}}
                         <div class="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center mx-auto"
                             style="width: 40px; height: 40px; font-size: 14px; overflow: hidden; line-height: 1;">
-                            <span class="text-truncate d-block text-center" style="max-width: 100%; white-space: nowrap;">
+                            <span class="text-truncate d-block text-center fw-bold" style="max-width: 100%; white-space: nowrap;">
                                 {{ auth()->user()->initials() }}
                             </span>
                         </div>

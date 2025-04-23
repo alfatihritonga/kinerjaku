@@ -54,7 +54,7 @@ class PegawaiSeeder extends Seeder
             ['nip' => 1212023030191, 'nama' => 'Karina Andriani, S.E.', 'divisi_id' => 2, 'unit_kerja_id' => 2, 'jabatan_id' => 9, 'aktif' => true],
             ['nip' => 124068702, 'nama' => 'Khairi Ibnutama, S.Kom., M.Kom', 'divisi_id' => 4, 'unit_kerja_id' => 9, 'jabatan_id' => 6, 'aktif' => true],
             ['nip' => 2408082170301, 'nama' => 'Liyana Aini Br Sembiring, S.Kom', 'divisi_id' => 3, 'unit_kerja_id' => 7, 'jabatan_id' => 9, 'aktif' => true],
-            ['nip' => 2112070230100, 'nama' => 'M. Harun Al-Rasyid, S.Kom', 'divisi_id' => 4, 'unit_kerja_id' => 12, 'jabatan_id' => 9, 'aktif' => true],
+            ['nip' => 2112070230100, 'nama' => 'M. Harun Al-Rasyid, S.Kom', 'divisi_id' => 4, 'unit_kerja_id' => 9, 'jabatan_id' => 9, 'aktif' => true],
             ['nip' => 1510030070194, 'nama' => 'M. Irpandi, S.Kom.', 'divisi_id' => 4, 'unit_kerja_id' => 12, 'jabatan_id' => 8, 'aktif' => true],
             ['nip' => 2408083250904, 'nama' => 'M. Rafly Zahran', 'divisi_id' => 4, 'unit_kerja_id' => 12, 'jabatan_id' => 9, 'aktif' => true],
             ['nip' => 2012064130499, 'nama' => 'M. Yazid, S.Kom', 'divisi_id' => 7, 'unit_kerja_id' => 4, 'jabatan_id' => 9, 'aktif' => true],
@@ -89,10 +89,11 @@ class PegawaiSeeder extends Seeder
             // ['nip' => 103, 'nama' => 'Weni Fionika', 'divisi_id' => 6, 'unit_kerja_id' => 24, 'jabatan_id' => 9, 'aktif' => true],
             ['nip' => 120098903, 'nama' => 'Zaimah Panjaitan, S.Kom., M.Kom', 'divisi_id' => 7, 'unit_kerja_id' => 4, 'jabatan_id' => 6, 'aktif' => true],
             ['nip' => 13101980, 'nama' => 'Zainul Arifin Dalimunthe', 'divisi_id' => 6, 'unit_kerja_id' => 23, 'jabatan_id' => 9, 'aktif' => true],
-            ['nip' => 10101010101, 'nama' => 'Ketua Yayasan', 'divisi_id' => 1, 'unit_kerja_id' => null, 'jabatan_id' => 1, 'aktif' => true],
-            ['nip' => 20202020202, 'nama' => 'Bendahara YBKS', 'divisi_id' => 2, 'unit_kerja_id' => null, 'jabatan_id' => 10, 'aktif' => true],
+            ['nip' => 10101010101, 'nama' => 'Ketua Yayasan', 'divisi_id' => 1, 'unit_kerja_id' => 26, 'jabatan_id' => 1, 'aktif' => true],
+            ['nip' => 20202020202, 'nama' => 'Bendahara YBKS', 'divisi_id' => 2, 'unit_kerja_id' => 27, 'jabatan_id' => 10, 'aktif' => true],
             ['nip' => 30303030303, 'nama' => 'Kaprodi SI', 'divisi_id' => 4, 'unit_kerja_id' => 9, 'jabatan_id' => 6, 'aktif' => true],
             ['nip' => 40404040404, 'nama' => 'Kasubid Digital Marketing', 'divisi_id' => 3, 'unit_kerja_id' => 8, 'jabatan_id' => 10, 'aktif' => true],
+            ['nip' => 132, 'nama' => 'Inayyah Fitri', 'divisi_id' => 4, 'unit_kerja_id' => 14, 'jabatan_id' => 9, 'aktif' => true],
         ];
 
         Pegawai::insert($data);

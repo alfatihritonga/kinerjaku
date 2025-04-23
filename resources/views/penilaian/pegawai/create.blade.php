@@ -4,7 +4,7 @@
 
 @section('content')
     <h3>Form Penilaian KPI</h3>
-    <small class="fw-semibold">{{ $pegawai->nama }}</small>
+    <small class="fw-semibold" style="font-size: 17px">{{ $pegawai->nama }}</small>
     <p class="text-muted">{{ $pegawai->jabatan->nama ?? '' }} {{ $pegawai->unitKerja->nama ?? '' }}</p>
 
     <x-alert />
@@ -79,12 +79,12 @@
                 @foreach ($kriterias as $kriteria)
                     <div class="mb-3">
                         <ol start="{{ $loop->iteration }}" type="A">
-                            <li class="fw-bold">
+                            <li class="fw-bold" style="font-size: 17px !important">
                                 {{ $kriteria->nama }}
-                                <ol style="margin-left: -16px;">
+                                <ol style="margin-left: -22px;">
                                     @foreach ($subKriterias->where('kriteria_id', $kriteria->id) as $subKriteria)
                                         <li class="mb-3 fw-normal">
-                                            <label style="vertical-align: top" class="form-label" for="kriteria_{{ $subKriteria->id }}">
+                                            <label style="vertical-align: top; font-size: 15px !important;" class="form-label" for="kriteria_{{ $subKriteria->id }}">
                                                 {{ $subKriteria->nama }}
                                             </label>
                                             <br>
@@ -94,14 +94,14 @@
                                                     $ket = $subKriteria->nilaiKeterangan->firstWhere('nilai', $nilai)?->keterangan;
                                                 @endphp
                                                 <div class="form-check mb-1">
-                                                    <label for="{{ $subKriteria->id }}{{ $nilai }}" class="form-check-label">
+                                                    <label style="font-size: 15px" for="{{ $subKriteria->id }}{{ $nilai }}" class="form-check-label">
                                                         <input type="radio" class="form-check-input"
                                                             name="nilai[{{ $subKriteria->id }}]" id="{{ $subKriteria->id }}{{ $nilai }}"
                                                             value="{{ $nilai }}" required>
                                                         {{ $label }}
                                                     </label>
                                                     @if ($ket)
-                                                        <div class="text-muted small ms-4">
+                                                        <div class="text-muted small ms-4" style="font-size: 12.5px !important">
                                                             {{ $ket }}
                                                         </div>
                                                     @endif
@@ -117,7 +117,8 @@
 
                 <div class="mb-3">
                     <label for="catatan" class="form-label fw-semibold">Kontribusi/Penilaian/Komentar</label>
-                    <input type="text" name="catatan" id="catatan" class="form-control" required>
+                    <textarea name="catatan" id="catatan" rows="2" placeholder="catatan terhadap penilaian" style="display: block; width: 100%; padding: 0.875rem 1.375rem; border: 1px solid #dee2e6; border-radius: 4px; font-size: 0.875rem; color: #1f1f1f;" required></textarea>
+                    {{-- <input type="text" name="catatan" id="catatan" class="form-control" required> --}}
                 </div>
 
                 <button type="submit" class="btn btn-success">Simpan</button>

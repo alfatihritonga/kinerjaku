@@ -20,6 +20,7 @@
                 <th data-field="id" data-sortable="true">No</th>
                 <th data-field="name" data-sortable="true">Nama</th>
                 <th data-field="email" data-sortable="true">Email</th>
+                <th data-field="pegawai" data-sortable="true">Pegawai</th>
                 <th data-field="role" data-sortable="true">Role</th>
                 <th>Action</th>
             </tr>
@@ -30,6 +31,7 @@
                     <th scope="row">{{ $loop->iteration }}</th>
                     <td>{{ $user->name }}</td>
                     <td>{{ $user->email }}</td>
+                    <td>{{ $user->pegawai->nama ?? '-' }}</td>
                     <td class="text-capitalize">{{ $user->role }}</td>
                     <td>
                         <a href="{{ route('pengguna.edit', $user->id) }}"

@@ -39,6 +39,8 @@ class UnitKerjaSeeder extends Seeder
             ['nama' => 'Keamanan', 'divisi_id' => '6'],
             ['nama' => 'Kebersihan', 'divisi_id' => '6'],
             ['nama' => 'Ketua STMIK', 'divisi_id' => '3'],
+            ['nama' => 'Ketua Yayasan', 'divisi_id' => '1'],
+            ['nama' => 'Bendahara Yayasan', 'divisi_id' => '2'],
         ]);
     }
 }
