@@ -234,15 +234,13 @@ class KpiPenilaianController extends Controller
         ->where('dinilai_id', $pegawai->id)
         ->first();
 
-        if ($kpiHasil) {
-            // Jika sudah ada data, update nilai
-            // Cek apakah penilai ke 2 sudah terisi
-            if ($kpiHasil->penilai_dua_id) {
-                // Cek level jabatan penilai
-                if ($penilai->jabatan->level > 4) {
+        // jika pegawai dinilai kabid/kasubid
+        if ($pegawai->jabatan->level == 5) {
+            // jika data hasil sudah ada
+            if ($kpiHasil) {            
+                // jika yg menilai bukan ketua stmik
+                if ($penilai->jabatan->level > 2) {
                     $kpiHasil->update([
-                        'penilai_satu_id' => $kpiHasil->penilai_dua_id,
-                        'nilai_oleh_satu' => $kpiHasil->nilai_oleh_dua,
                         'penilai_dua_id' => $penilai->id,
                         'nilai_oleh_dua' => $totalAkhirKPI,
                     ]);
@@ -253,30 +251,74 @@ class KpiPenilaianController extends Controller
                     ]);
                 }
             } else {
-                if ($penilai->jabatan->level <= 2) {
-                    $kpiHasil->update([
+                // jika yg menilai bukan ketua stmik
+                if ($penilai->jabatan->level > 2) {
+                    KpiHasil::create([
+                        'dinilai_id' => $pegawai->id,
+                        'periode_id' => $periodeId,
+                        'penilai_dua_id' => $penilai->id,
+                        'nilai_oleh_dua' => $totalAkhirKPI,
+                    ]);
+                } else {
+                    KpiHasil::create([
+                        'dinilai_id' => $pegawai->id,
+                        'periode_id' => $periodeId,
                         'penilai_satu_id' => $penilai->id,
                         'nilai_oleh_satu' => $totalAkhirKPI,
                     ]);
                 }
             }
-        } else {
-            // Jika belum ada data, buat baru
-            // Cek level jabatan penilai
-            if ($penilai->jabatan->level <= 2) {
-                KpiHasil::create([
-                    'dinilai_id' => $pegawai->id,
-                    'periode_id' => $periodeId,
-                    'penilai_satu_id' => $penilai->id,
-                    'nilai_oleh_satu' => $totalAkhirKPI,
-                ]);
+        } 
+        
+        // jika pegawai dinilai staff
+        if ($pegawai->jabatan->level == 6) {
+            // jika data hasil sudah ada
+            if ($kpiHasil) {
+                if ($kpiHasil->penilai_satu_id) {
+                    // Cek level jabatan penilai
+                    if ($penilai->jabatan->level <= 2) {
+                        $kpiHasil->update([
+                            'penilai_dua_id' => $kpiHasil->penilai_satu_id,
+                            'nilai_oleh_dua' => $kpiHasil->nilai_oleh_satu,
+                            'penilai_satu_id' => $penilai->id,
+                            'nilai_oleh_satu' => $totalAkhirKPI,
+                        ]);
+                    } else {
+                        $kpiHasil->update([
+                            'penilai_dua_id' => $penilai->id,
+                            'nilai_oleh_dua' => $totalAkhirKPI,
+                        ]);
+                    }
+                } else {
+                    if ($penilai->jabatan->level < 5) {
+                        $kpiHasil->update([
+                            'penilai_satu_id' => $penilai->id,
+                            'nilai_oleh_satu' => $totalAkhirKPI,
+                        ]);
+                    } else {
+                        $kpiHasil->update([
+                            'penilai_dua_id' => $penilai->id,
+                            'nilai_oleh_dua' => $totalAkhirKPI,
+                        ]);
+                    }
+                }
             } else {
-                KpiHasil::create([
-                    'dinilai_id' => $pegawai->id,
-                    'periode_id' => $periodeId,
-                    'penilai_dua_id' => $penilai->id,
-                    'nilai_oleh_dua' => $totalAkhirKPI,
-                ]);
+                // jika yg menilai bukan ketua stmik
+                if ($penilai->jabatan->level > 4) {
+                    KpiHasil::create([
+                        'dinilai_id' => $pegawai->id,
+                        'periode_id' => $periodeId,
+                        'penilai_dua_id' => $penilai->id,
+                        'nilai_oleh_dua' => $totalAkhirKPI,
+                    ]);
+                } else {
+                    KpiHasil::create([
+                        'dinilai_id' => $pegawai->id,
+                        'periode_id' => $periodeId,
+                        'penilai_satu_id' => $penilai->id,
+                        'nilai_oleh_satu' => $totalAkhirKPI,
+                    ]);
+                }
             }
         }
     }
