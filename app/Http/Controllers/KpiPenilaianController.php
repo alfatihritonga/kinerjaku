@@ -253,10 +253,12 @@ class KpiPenilaianController extends Controller
                     ]);
                 }
             } else {
-                $kpiHasil->update([
-                    'penilai_dua_id' => $penilai->id,
-                    'nilai_oleh_dua' => $totalAkhirKPI,
-                ]);
+                if ($penilai->jabatan->level <= 2) {
+                    $kpiHasil->update([
+                        'penilai_satu_id' => $penilai->id,
+                        'nilai_oleh_satu' => $totalAkhirKPI,
+                    ]);
+                }
             }
         } else {
             // Jika belum ada data, buat baru
