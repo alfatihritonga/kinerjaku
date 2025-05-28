@@ -38,7 +38,7 @@ class KpiPenilaian extends Model
 
     public function hasilPenilaian()
     {
-        return $this->hasOne(KpiHasil::class, 'periode_id', 'periode_id')
+        return $this->hasMany(KpiHasil::class, 'periode_id', 'periode_id')
                 ->whereColumn('dinilai_id', 'dinilai_id');
     }
 }

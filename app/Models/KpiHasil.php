@@ -41,7 +41,18 @@ class KpiHasil extends Model
 
     public function penilaian()
     {
-        return $this->belongsTo(KpiPenilaian::class);
+        return $this->belongsTo(KpiPenilaian::class, 'periode_id', 'periode_id')
+                ->whereColumn('dinilai_id', 'dinilai_id');
+    }
+
+    public function penilai()
+    {
+        return $this->belongsTo(Pegawai::class, 'penilai_id');
+    }
+
+    public function dinilai()
+    {
+        return $this->belongsTo(Pegawai::class, 'dinilai_id');
     }
     
     public function getCatatanPenilaiSatuAttribute()

@@ -37,4 +37,9 @@ class Pegawai extends Model
     {
         return $this->belongsTo(Jabatan::class);
     }
+    
+    public function hasilNilai()
+    {
+        return $this->hasMany(KpiHasil::class);
+    }
 }

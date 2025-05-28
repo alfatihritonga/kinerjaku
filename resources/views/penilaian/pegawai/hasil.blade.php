@@ -5,7 +5,7 @@
 @section('content')
     <h1 class="h3">Hasil Penilaian Pegawai</h1>
     <p>Halaman untuk melihat hasil kpi pegawai</p>
-    <p>{{ $penilaians->first()->periode->keterangan }}</p>
+    <p>{{ $hasils->first()->periode->keterangan }}</p>
 
     <x-alert />
 
@@ -18,21 +18,21 @@
             </tr>
         </thead>
         <tbody>
-            @foreach ($penilaians as $penilaian)
+            @foreach ($hasils as $hasil)
                 <tr>
-                    <td>{{ $penilaian->dinilai->nama }}</td>
+                    <td>{{ $hasil->dinilai->nama }}</td>
                     <td>
-                        @if ($penilaian->hasilPenilaian->penilai_satu_id == Auth::user()->pegawai->id)
-                            {{ $penilaian->hasilPenilaian->nilai_oleh_satu }}
+                        @if ($hasil->penilai_satu_id == Auth::user()->pegawai->id)
+                            {{ $hasil->nilai_oleh_satu }}
                         @endif
-                        @if ($penilaian->hasilPenilaian->penilai_dua_id == Auth::user()->pegawai->id)
-                            {{ $penilaian->hasilPenilaian->nilai_oleh_dua }}
+                        @if ($hasil->penilai_dua_id == Auth::user()->pegawai->id)
+                            {{ $hasil->nilai_oleh_dua }}
                         @endif
                     </td>
-                    <td>{{ $penilaian->catatan }}</td>
+                    <td>{{ $hasil->penilaian->catatan }}</td>
                 </tr>
             @endforeach
         </tbody>
     </table>
-    <a href="{{ route('penilaian.index', $penilaians->first()->periode_id) }}" class="btn btn-light">Kembali</a>
+    <a href="{{ route('penilaian.index', $hasils->first()->periode_id) }}" class="btn btn-light">Kembali</a>
 @endsection
