@@ -38,6 +38,11 @@ class KpiHasil extends Model
     {
         return $this->belongsTo(PeriodePenilaian::class);
     }
+
+    public function penilaian()
+    {
+        return $this->belongsTo(KpiPenilaian::class);
+    }
     
     public function getCatatanPenilaiSatuAttribute()
     {

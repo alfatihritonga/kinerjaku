@@ -34,7 +34,7 @@ class UnitKerjaController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'nama' => 'required|string|max:255|unique:divisis,nama',
+            'nama' => 'required|string|max:255|unique:unit_kerjas,nama',
             'divisi_id' => 'required|exists:divisis,id',
         ]);
         
