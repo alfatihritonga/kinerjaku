@@ -4,11 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 class KpiHasil extends Model
 {
     use HasFactory;
-
+    
     protected $fillable = [
         'dinilai_id',
         'periode_id',
@@ -18,56 +19,45 @@ class KpiHasil extends Model
         'nilai_oleh_dua',
         'nilai_kedisiplinan',
     ];
-
+    
     public function pegawai()
     {
         return $this->belongsTo(Pegawai::class, 'dinilai_id');
     }
-
+    
     public function penilaiSatu()
     {
         return $this->belongsTo(Pegawai::class, 'penilai_satu_id');
     }
-
+    
     public function penilaiDua()
     {
         return $this->belongsTo(Pegawai::class, 'penilai_dua_id');
     }
-
+    
     public function periode()
     {
         return $this->belongsTo(PeriodePenilaian::class);
     }
-
-    public function penilaian()
+    
+    public function penilaians()
     {
-        return $this->belongsTo(KpiPenilaian::class, 'periode_id', 'periode_id')
-                ->whereColumn('dinilai_id', 'dinilai_id');
+        return $this->hasMany(KpiPenilaian::class, 'dinilai_id', 'dinilai_id')
+        ->whereColumn('periode_id', 'periode_id');
     }
-
+    
     public function penilai()
     {
         return $this->belongsTo(Pegawai::class, 'penilai_id');
     }
-
+    
     public function dinilai()
     {
         return $this->belongsTo(Pegawai::class, 'dinilai_id');
     }
-    
-    public function getCatatanPenilaiSatuAttribute()
+
+    public function catatanSaya()
     {
-        return KpiPenilaian::where('dinilai_id', $this->dinilai_id)
-                ->where('penilai_id', $this->penilai_satu_id)
-                ->where('periode_id', $this->periode_id)
-                ->value('catatan');
-    }
-    
-    public function getCatatanPenilaiDuaAttribute()
-    {
-        return KpiPenilaian::where('dinilai_id', $this->dinilai_id)
-                ->where('penilai_id', $this->penilai_dua_id)
-                ->where('periode_id', $this->periode_id)
-                ->value('catatan');
+        return $this->hasOne(KpiPenilaian::class, 'dinilai_id', 'dinilai_id');
     }
 }

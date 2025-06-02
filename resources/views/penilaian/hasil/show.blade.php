@@ -63,11 +63,11 @@
                                 $total_nilai = $item->nilai_oleh_dua;
                             }
                         }
-                        $grand_total = ($item->nilai_kedisiplinan + $total_nilai) / 2;
+                        $grand_total = ($item->nilai_kedisiplinan ?? 0 + $total_nilai) / 2;
                     @endphp
                     <td>{{ $total_nilai }}</td>
                     <td>{{ $item->nilai_kedisiplinan ?? '-' }}</td>
-                    <td>{{ $grand_total }}</td>
+                    <td>{{ $item->grand_total }}</td>
                     <td>{{ $item->catatan_penilai_satu ?? '-' }}</td>
                     <td>{{ $item->catatan_penilai_dua ?? '-' }}</td>
                 </tr>

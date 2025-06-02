@@ -86,29 +86,20 @@ class KpiHasilController extends Controller
     }
     
     public function hasil($periodeId)
-    {
-        // $hasils = KpiPenilaian::where('penilai_id', Auth::user()->pegawai->id)
-        // ->where('periode_id', $periodeId)
-        // ->with([
-        //     'dinilai',
-        //     'hasilPenilaian' => function ($query) {
-        //     $query->where(function ($q) {
-        //         $q->where('penilai_satu_id', Auth::user()->pegawai->id)
-        //             ->orWhere('penilai_dua_id', Auth::user()->pegawai->id);
-        //     });
-        // }
-        // ])
-        // ->get();
-        
+    {   
         $hasils = KpiHasil::where(function ($query) {
             $query->where('penilai_satu_id', Auth::user()->pegawai->id)
             ->orWhere('penilai_dua_id', Auth::user()->pegawai->id);
         })
         ->where('periode_id', $periodeId)
-        ->with('penilaian')
+        ->with([
+            'catatanSaya' => function ($query) use ($periodeId) {
+                $query->where('penilai_id', auth()->user()->pegawai->id)
+                    ->where('periode_id', $periodeId);
+            },
+            'dinilai'
+        ])
         ->get();
-        
-        // dd($hasils);
         
         if ($hasils->isEmpty()) {
             return back()->with('warning', 'Hasil Penilaian belum ada.');
@@ -120,11 +111,24 @@ class KpiHasilController extends Controller
     public function hasilAkhir($periodeId, $level)
     {
         $hasilKpi = KpiHasil::with(['pegawai.jabatan'])
+        ->selectRaw('
+            kpi_hasils.*,
+            CASE
+                WHEN nilai_oleh_satu > 0 AND nilai_oleh_dua > 0 THEN 
+                    ((nilai_oleh_satu + nilai_oleh_dua) / 2 + nilai_kedisiplinan) / 2
+                WHEN nilai_oleh_satu > 0 AND (nilai_oleh_dua IS NULL OR nilai_oleh_dua = 0) THEN
+                    (nilai_oleh_satu + nilai_kedisiplinan) / 2
+                WHEN (nilai_oleh_satu IS NULL OR nilai_oleh_satu = 0) AND nilai_oleh_dua > 0 THEN
+                    (nilai_oleh_dua + nilai_kedisiplinan) / 2
+                ELSE
+                    nilai_kedisiplinan
+            END AS grand_total
+        ')
         ->where('periode_id', $periodeId)
-        ->whereHas('pegawai.jabatan', function ($q) use ($level) { 
+        ->whereHas('pegawai.jabatan', function ($q) use ($level) {
             $q->where('level', $level);
         })
-        ->orderByRaw('(((COALESCE(nilai_oleh_satu, 0) + COALESCE(nilai_oleh_dua, 0)) / 2) + COALESCE(nilai_kedisiplinan, 0)) / 2 desc')
+        ->orderByDesc('grand_total')
         ->get();
         
         if ($hasilKpi->isEmpty()) {
@@ -137,14 +141,24 @@ class KpiHasilController extends Controller
     public function cetakLaporan($periodeId, $level)
     {
         $hasilKpi = KpiHasil::with(['pegawai.jabatan'])
+        ->selectRaw('
+            kpi_hasils.*,
+            CASE
+                WHEN nilai_oleh_satu > 0 AND nilai_oleh_dua > 0 THEN 
+                    ((nilai_oleh_satu + nilai_oleh_dua) / 2 + nilai_kedisiplinan) / 2
+                WHEN nilai_oleh_satu > 0 AND (nilai_oleh_dua IS NULL OR nilai_oleh_dua = 0) THEN
+                    (nilai_oleh_satu + nilai_kedisiplinan) / 2
+                WHEN (nilai_oleh_satu IS NULL OR nilai_oleh_satu = 0) AND nilai_oleh_dua > 0 THEN
+                    (nilai_oleh_dua + nilai_kedisiplinan) / 2
+                ELSE
+                    nilai_kedisiplinan
+            END AS grand_total
+        ')
         ->where('periode_id', $periodeId)
-        ->whereHas('pegawai', function ($q) use ($level) {
-            $q->where('aktif', true) // filter status aktif
-            ->whereHas('jabatan', function ($q2) use ($level) {
-                $q2->where('level', $level);
-            });
+        ->whereHas('pegawai.jabatan', function ($q) use ($level) {
+            $q->where('level', $level);
         })
-        ->orderByRaw('(((COALESCE(nilai_oleh_satu, 0) + COALESCE(nilai_oleh_dua, 0)) / 2) + COALESCE(nilai_kedisiplinan, 0)) / 2 desc')
+        ->orderByDesc('grand_total')
         ->get();
         
         if ($hasilKpi->isEmpty()) {

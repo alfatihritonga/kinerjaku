@@ -25,11 +25,14 @@
                         @if ($hasil->penilai_satu_id == Auth::user()->pegawai->id)
                             {{ $hasil->nilai_oleh_satu }}
                         @endif
+
                         @if ($hasil->penilai_dua_id == Auth::user()->pegawai->id)
                             {{ $hasil->nilai_oleh_dua }}
                         @endif
                     </td>
-                    <td>{{ $hasil->penilaian->catatan }}</td>
+                    <td>
+                        {{ $hasil->catatanSaya->catatan ?? '-' }}
+                    </td>
                 </tr>
             @endforeach
         </tbody>
