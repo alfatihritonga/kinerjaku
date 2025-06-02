@@ -55,6 +55,22 @@ class KpiHasil extends Model
     {
         return $this->belongsTo(Pegawai::class, 'dinilai_id');
     }
+    
+    public function getCatatanPenilaiSatuAttribute()
+    {
+        return KpiPenilaian::where('dinilai_id', $this->dinilai_id)
+        ->where('penilai_id', $this->penilai_satu_id)
+        ->where('periode_id', $this->periode_id)
+        ->value('catatan');
+    }
+    
+    public function getCatatanPenilaiDuaAttribute()
+    {
+        return KpiPenilaian::where('dinilai_id', $this->dinilai_id)
+        ->where('penilai_id', $this->penilai_dua_id)
+        ->where('periode_id', $this->periode_id)
+        ->value('catatan');
+    }
 
     public function catatanSaya()
     {

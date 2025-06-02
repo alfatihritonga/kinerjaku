@@ -45,29 +45,23 @@
         </thead>
         <tbody>
             @foreach ($hasilKpi as $item)
+                @php
+                    $nilai_1 = ($item->nilai_oleh_satu == 0 || is_null($item->nilai_oleh_satu)) ? 0 : $item->nilai_oleh_satu;
+                    $nilai_2 = ($item->nilai_oleh_dua == 0 || is_null($item->nilai_oleh_dua)) ? 0 : $item->nilai_oleh_dua;
+                    $rata_nilai = ($nilai_1 > 0 && $nilai_2 > 0) ? ($nilai_1 + $nilai_2) / 2 : ($nilai_1 ?: $nilai_2); // pakai nilai yang ada
+                    $nilai_kedisiplinan = $item->nilai_kedisiplinan ?? 0;
+                    $grand_total = ($rata_nilai + $nilai_kedisiplinan) / 2;
+                @endphp
                 <tr>
                     <th scope="row">{{ $loop->iteration }}</th>
                     <td>{{ $item->pegawai->nama ?? '-' }}</td>
                     <td>{{ $item->pegawai->divisi->nama ?? '-' }}</td>
                     <td>{{ $item->pegawai->unitKerja->nama ?? '-' }}</td>
-                    <td>{{ $item->nilai_oleh_satu ?? '-' }}</td>
-                    <td>{{ $item->nilai_oleh_dua ?? '-' }}</td>
-                    @php
-                        $total_nilai = 0;
-                        if ($item->nilai_oleh_satu && $item->nilai_oleh_dua) {
-                            $total_nilai = ($item->nilai_oleh_satu + $item->nilai_oleh_dua) / 2;
-                        } else {
-                            if ($item->nilai_oleh_satu) {
-                                $total_nilai = $item->nilai_oleh_satu;
-                            } else {
-                                $total_nilai = $item->nilai_oleh_dua;
-                            }
-                        }
-                        $grand_total = ($item->nilai_kedisiplinan ?? 0 + $total_nilai) / 2;
-                    @endphp
-                    <td>{{ $total_nilai }}</td>
-                    <td>{{ $item->nilai_kedisiplinan ?? '-' }}</td>
-                    <td>{{ $item->grand_total }}</td>
+                    <td>{{ $nilai_1 > 0 ? number_format($nilai_1, 2) : '-' }}</td>
+                    <td>{{ $nilai_2 > 0 ? number_format($nilai_2, 2) : '-' }}</td>
+                    <td>{{ $rata_nilai > 0 ? number_format($rata_nilai, 2) : '-' }}</td>
+                    <td>{{ $nilai_kedisiplinan > 0 ? number_format($nilai_kedisiplinan, 2) : '-' }}</td>
+                    <td>{{ $grand_total > 0 ? number_format($grand_total, 2) : '-' }}</td>
                     <td>{{ $item->catatan_penilai_satu ?? '-' }}</td>
                     <td>{{ $item->catatan_penilai_dua ?? '-' }}</td>
                 </tr>

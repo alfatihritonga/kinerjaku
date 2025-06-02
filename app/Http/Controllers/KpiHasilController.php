@@ -130,6 +130,8 @@ class KpiHasilController extends Controller
         })
         ->orderByDesc('grand_total')
         ->get();
+
+        // dd($hasilKpi);
         
         if ($hasilKpi->isEmpty()) {
             return back()->with('warning', 'Hasil Penilaian belum ada.');
